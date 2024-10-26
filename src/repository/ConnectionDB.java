@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 public class ConnectionDB {
 	private Connection conn;
-	private ResultSet result;
 	
 	private String url = "jdbc:postgresql://localhost/projetodb";
 	private String user = "postgres";
@@ -16,7 +15,6 @@ public class ConnectionDB {
 	public ConnectionDB() {
 		try {
 			Class.forName("org.postgresql.Driver");
-			this.setResult(null);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -38,14 +36,6 @@ public class ConnectionDB {
 
 	public void setConn(Connection conn) {
 		this.conn = conn;
-	}
-
-	public ResultSet getResult() {
-		return result;
-	}
-
-	public void setResult(ResultSet result) {
-		this.result = result;
 	}
 	
 }
