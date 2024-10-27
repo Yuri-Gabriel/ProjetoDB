@@ -7,8 +7,10 @@ import repository.user.UserRepository;
 public class UserService {
 	private static UserRepository repository = new UserRepository();
 	
-	public static User[] getAll() {
-		return repository.getAll();
+	public static User[] getAll() throws Exception {
+		User[] users = repository.getAll();
+		if(users == null) throw new Exception("Sem usuarios cadastrados");
+		return users;
 	}
 	
 	public static User get(String name) throws Exception {

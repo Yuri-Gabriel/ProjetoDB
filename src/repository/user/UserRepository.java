@@ -14,12 +14,19 @@ public class UserRepository implements UserRepositoryInterface {
 	private Connection conn = new ConnectionDB().startConnection();
 	private Statement stm;
 	private ResultSet result_query;
+	
+	public UserRepository() {
+		try {
+			this.stm = this.conn.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public User[] getAll() {
 		User[] users = null;
 		try {
-			 this.stm = this.conn.createStatement();
 			 this.result_query = this.stm.executeQuery("SELECT * FROM user_entity");
 			 int cont = 0;
 			 while(this.result_query.next()) {
@@ -62,7 +69,6 @@ public class UserRepository implements UserRepositoryInterface {
 				
 				user = new User(id, name, email, password, biography);
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
