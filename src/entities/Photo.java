@@ -3,12 +3,21 @@ package entities;
 import java.util.Date;
 
 public class Photo {
+	private Integer id;
 	private String name;
 	private String description;
-	private Date upload_date;
+	private String upload_date;
 	private int number_of_likes;
 	
-	public Photo(String name, String description, Date upload_date, int number_of_likes) {
+	public Photo(int id, String name, String description, String upload_date, int number_of_likes) {
+		this.setId(id);
+		this.setName(name);
+		this.setDescription(description);
+		this.setUpload_date(upload_date);
+		this.setNumber_of_likes(number_of_likes);
+	}
+	
+	public Photo(String name, String description, String upload_date, int number_of_likes) {
 		this.setName(name);
 		this.setDescription(description);
 		this.setUpload_date(upload_date);
@@ -27,10 +36,10 @@ public class Photo {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date getUpload_date() {
+	public String getUpload_date() {
 		return upload_date;
 	}
-	public void setUpload_date(Date upload_date) {
+	public void setUpload_date(String upload_date) {
 		this.upload_date = upload_date;
 	}
 	public int getNumber_of_likes() {
@@ -38,5 +47,13 @@ public class Photo {
 	}
 	public void setNumber_of_likes(int number_of_likes) {
 		this.number_of_likes = number_of_likes;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }
