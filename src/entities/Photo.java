@@ -7,7 +7,7 @@ public class Photo {
 	private String name;
 	private String description;
 	private String upload_date;
-	private int number_of_likes;
+	private Integer number_of_likes;
 	
 	public Photo(int id, String name, String description, String upload_date, int number_of_likes) {
 		this.setId(id);
@@ -42,7 +42,7 @@ public class Photo {
 	public void setUpload_date(String upload_date) {
 		this.upload_date = upload_date;
 	}
-	public int getNumber_of_likes() {
+	public Integer getNumber_of_likes() {
 		return number_of_likes;
 	}
 	public void setNumber_of_likes(int number_of_likes) {
@@ -55,5 +55,10 @@ public class Photo {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("id: %d | name: %s | description: %s | upload_date: %s | number_of_likes: %d", this.getId(), this.getName(), this.getDescription(), this.getUpload_date(), this.getNumber_of_likes());
 	}
 }

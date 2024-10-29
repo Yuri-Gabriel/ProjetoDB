@@ -8,18 +8,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import entities.Photo;
 import entities.User;
+import service.PhotoService;
 import service.UserService;
 
 public class App {
 
-	public static void main(String[] args) throws Exception {
-		User user1 = new User("cleiton", "cleiton@gmail.com", "latin", "sou um rapaz muito legal");
-		UserService.create(user1);
+	public static void main(String[] args) {
 		
-		User[] users = UserService.getAll();
-		for(User user : users) {
-			System.out.println(user.toString());
+		Photo[] photos = PhotoService.getAllByUser(1);
+		for(Photo p : photos) {
+			System.out.println(p.toString());
 		}
 	}
 }
