@@ -76,33 +76,39 @@ public class UserRepository implements UserRepositoryInterface {
 	}
 
 	@Override
-	public void create(User user) {
+	public boolean create(User user) {
 		String query = String.format("INSERT INTO user_entity (name_user, email_user, password_user, biography_user) VALUES ('%s', '%s', '%s', '%s')", user.getName(), user.getEmail(), user.getPassword(), user.getBiography());
 		try {
 			this.stm.execute(query);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	@Override
-	public void update(User user) {
+	public boolean update(User user) {
 		String query = this.getUpdateQuery(user);
 		try {
 			this.stm.execute(query);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	@Override
-	public void delete(int cod_user) {
+	public boolean delete(int cod_user) {
 		String query = String.format("DELETE FROM user_entity WHERE cod_user = '%d'", cod_user);
 		try {
 			this.stm.execute(query);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	private String getUpdateQuery(User user) {

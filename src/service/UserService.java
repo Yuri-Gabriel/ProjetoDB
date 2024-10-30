@@ -19,17 +19,17 @@ public class UserService {
 		return user;
 	}
 	
-	public static void create(User user) throws Exception {
+	public static boolean create(User user) throws Exception {
 		if(user == null) throw new Exception("Ausencia de dados");
-		repository.create(user);
+		return repository.create(user);
 	}
 	
-	public static void update(User user) throws Exception {
+	public static boolean update(User user) throws Exception {
 		if(user == null) throw new Exception("Ausencia de dados");
-		repository.update(user);
+		return repository.update(user);
 	}
 	
-	public static void delete(int cod_user) {
-		repository.delete(cod_user);
+	public static boolean delete(int cod_user) {
+		return repository.delete(cod_user);
 	}
 }
