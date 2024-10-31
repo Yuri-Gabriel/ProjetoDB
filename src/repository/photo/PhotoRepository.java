@@ -43,7 +43,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 				int id = Integer.parseInt(this.result_query.getString("cod_photo"));
 				String name = this.result_query.getString("name_photo");
 				String description = this.result_query.getString("description_photo");
-				String date = this.formatDate(this.result_query.getString("data_upload_photo"));
+				String date = this.formatDate(this.result_query.getString("date_upload_photo"));
 				int number_of_likes = Integer.parseInt(this.result_query.getString("number_of_likes_photo"));
 				
 				photos[cont] = new Photo(id, name, description, date, number_of_likes);

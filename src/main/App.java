@@ -6,8 +6,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import entities.Comment;
 import entities.Photo;
 import entities.User;
+import service.CommentService;
 import service.LikeService;
 import service.PhotoService;
 import service.UserService;
@@ -16,14 +18,18 @@ public class App {
 
 	public static void main(String[] args) throws Exception {
 		
-		//PhotoService.create(new Photo("teste", "testando", "", 0), 1);
+		//UserService.create(new User("joao", "joao1234@gmail.com", "joao123"));
+		//CommentService.getAllCommentByPhoto(0);
 		
-		//LikeService.giveOneLike(1, 3);
-		//LikeService.giveOneLike(1, 4);
+		//CommentService.create(new Comment("muito bom", "", null, null), 7, 2);
 		
-		LikeService.ungiveOneLike(1, 4);
+		//CommentService.delete(1);
+		Comment[] comments = CommentService.getAllCommentByPhoto(7);
+		for(Comment c : comments) {
+			System.out.println(c.toString());
+		}
 		
-		LikeService.updateNumberOfLikes(1);
+		
 		
 		User[] users = UserService.getAll();
 		for(User u : users) {
