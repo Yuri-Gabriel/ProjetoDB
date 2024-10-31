@@ -9,8 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.postgresql.util.PSQLException;
-
 import entities.Photo;
 import repository.ConnectionDB;
 
@@ -45,7 +43,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 				int id = Integer.parseInt(this.result_query.getString("cod_photo"));
 				String name = this.result_query.getString("name_photo");
 				String description = this.result_query.getString("description_photo");
-				String date = this.formatDate(this.result_query.getString("date_upload_photo"));
+				String date = this.formatDate(this.result_query.getString("data_upload_photo"));
 				int number_of_likes = Integer.parseInt(this.result_query.getString("number_of_likes_photo"));
 				
 				photos[cont] = new Photo(id, name, description, date, number_of_likes);
@@ -60,7 +58,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 
 	@Override
 	public boolean create(Photo photo, int cod_user) {
-		String query = String.format("INSERT INTO photo_entity (name_photo, description_photo, date_upload_photo, number_of_likes_photo, cod_user) VALUES ('%s', '%s', '%s', '%d', '%d')", photo.getName(), photo.getDescription(), this.getAtualDate(), 0, cod_user);
+		String query = String.format("INSERT INTO photo_entity (name_photo, description_photo, data_upload_photo, number_of_likes_photo, cod_user) VALUES ('%s', '%s', '%s', '%d', '%d')", photo.getName(), photo.getDescription(), this.getAtualDate(), 0, cod_user);
 		try {
 			this.stm.execute(query);
 			return true;
@@ -90,6 +88,18 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 			return true;
 		} catch (SQLException err) {
 			//"Não existe nunhuma foto cadastrada com o codigo identificador informado"
+			System.out.println(err.getLocalizedMessage());
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean updateNumberOfLikes(int cod_photo) {
+		String query = String.format("UPDATE photo SET number_of_likes_photo = (SELECT COUNT(*) FROM like_entity WHERE cod_photo = %d) WHERE cod_photo = %d", cod_photo, cod_photo);
+		try {
+			this.stm.execute(query);
+			return true;
+		} catch (SQLException err) {
 			System.out.println(err.getLocalizedMessage());
 		}
 		return false;
@@ -153,6 +163,8 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 		
 		return String.format("UPDATE user_entity SET %s WHERE cod_user = '%s'", columns, photo.getId());
 	}
+
+	
 
 	
 
