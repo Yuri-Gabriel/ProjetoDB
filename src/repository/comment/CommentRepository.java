@@ -53,7 +53,6 @@ public class CommentRepository implements CommentRepositoryInterface {
 				int id = Integer.parseInt(this.result_query.getString("cod_comment"));
 				String text = this.result_query.getString("text_comment");
 				String date = this.formatDate(this.result_query.getString("date_comment"));
-				String name_user = this.result_query.getString("name_user");
 				
 				comments[count] = new Comment(id, text, date, null, null);
 				
