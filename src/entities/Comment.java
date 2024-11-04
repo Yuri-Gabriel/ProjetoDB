@@ -1,9 +1,7 @@
 package entities;
 
-import java.util.Date;
-
 public class Comment {
-	private Integer id = null;
+	private int id;
 	private String text;
 	private String date;
 	private Photo photo;
@@ -11,13 +9,6 @@ public class Comment {
 	
 	public Comment(int id, String text, String date, Photo photo, User user) {
 		this.setId(id);
-		this.setText(text);
-		this.setDate(date);
-		this.setPhoto(photo);
-		this.setUser(user);
-	}
-	
-	public Comment(String text, String date, Photo photo, User user) {
 		this.setText(text);
 		this.setDate(date);
 		this.setPhoto(photo);
@@ -49,11 +40,11 @@ public class Comment {
 		this.user = user;
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

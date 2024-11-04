@@ -1,16 +1,17 @@
 package entities;
 
-import java.util.Date;
-
 public class Album {
+	private int id;
 	private String name;
 	private String description;
-	private Date creation_date;
+	private String creation_date;
 	private Photo[] photos;
 	
-	public Album(String name, String description, Date creation_date) {
+	public Album(int id, String name, String description, String creation_date) {
+		this.setId(id);
 		this.setName(name);
 		this.setDescription(description);
+		this.setCreation_date(creation_date);
 	}
 	
 	public String getName() {
@@ -25,10 +26,10 @@ public class Album {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date getCreation_date() {
+	public String getCreation_date() {
 		return creation_date;
 	}
-	public void setCreation_date(Date creation_date) {
+	public void setCreation_date(String creation_date) {
 		this.creation_date = creation_date;
 	}
 	public Photo[] getPhotos() {
@@ -36,5 +37,11 @@ public class Album {
 	}
 	public void setPhotos(Photo[] photos) {
 		this.photos = photos;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

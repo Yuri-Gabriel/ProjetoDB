@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import entities.Photo;
+import entities.dto.photo.CreatePhotoDTO;
+import entities.dto.photo.UpdatePhotoDTO;
 import repository.ConnectionDB;
 
 public class PhotoRepository implements PhotoRepositoryInterface  {
@@ -57,7 +59,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 	}
 
 	@Override
-	public boolean create(Photo photo, int cod_user) {
+	public boolean create(CreatePhotoDTO photo, int cod_user) {
 		String query = String.format("INSERT INTO photo_entity (name_photo, description_photo, data_upload_photo, number_of_likes_photo, cod_user) VALUES ('%s', '%s', '%s', '%d', '%d')", photo.getName(), photo.getDescription(), this.getAtualDate(), 0, cod_user);
 		try {
 			this.stm.execute(query);
@@ -69,8 +71,8 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 	}
 
 	@Override
-	public boolean update(Photo photo) {
-		String query = this.getUpdateQuery(photo);
+	public boolean update(UpdatePhotoDTO photo, int cod_photo) {
+		String query = this.getUpdateQuery(photo, cod_photo);
 		try {
 			this.stm.execute(query);
 			return true;
@@ -146,7 +148,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 		return new SimpleDateFormat("dd/MM/yyyy").format(dt);
 	}
 	
-	private String getUpdateQuery(Photo photo) {
+	private String getUpdateQuery(UpdatePhotoDTO photo, int cod_photo) {
 		String columns = "";
 		if(photo.getName() != "") {
 			columns += String.format("name_photo = '%s',", photo.getName());
@@ -161,7 +163,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 			columns = new String(columns_array).trim();
 		}
 		
-		return String.format("UPDATE user_entity SET %s WHERE cod_user = '%s'", columns, photo.getId());
+		return String.format("UPDATE photo_entity SET %s WHERE cod_user = '%s'", columns, cod_photo);
 	}
 
 	

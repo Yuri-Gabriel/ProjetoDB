@@ -12,6 +12,8 @@ import java.util.Date;
 import entities.Comment;
 import entities.Photo;
 import entities.User;
+import entities.dto.comment.CreateCommentDTO;
+import entities.dto.comment.UpdateCommentDTO;
 import repository.ConnectionDB;
 
 public class CommentRepository implements CommentRepositoryInterface {
@@ -26,12 +28,6 @@ public class CommentRepository implements CommentRepositoryInterface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public Comment[] getAllCommentByUser(int cod_user) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -53,7 +49,6 @@ public class CommentRepository implements CommentRepositoryInterface {
 				int id = Integer.parseInt(this.result_query.getString("cod_comment"));
 				String text = this.result_query.getString("text_comment");
 				String date = this.formatDate(this.result_query.getString("date_comment"));
-				String name_user = this.result_query.getString("name_user");
 				
 				comments[count] = new Comment(id, text, date, null, null);
 				
@@ -66,8 +61,20 @@ public class CommentRepository implements CommentRepositoryInterface {
 	}
 
 	@Override
-	public boolean create(Comment comment, int cod_photo, int cod_user) {
-		String query = String.format("INSERT INTO comment_entity (text_comment, date_comment, cod_photo, cod_user) VALUES ('%s', '%s', %d, %d)", comment.getText(), this.getAtualDate(), cod_photo, cod_user);
+	public boolean create(CreateCommentDTO comment) {
+		String query = String.format("INSERT INTO comment_entity (text_comment, date_comment, cod_photo, cod_user) VALUES ('%s', '%s', %d, %d)", comment.getText(), this.getAtualDate(), comment.getCod_photo(), comment.getCod_user());
+		try {
+			this.stm.execute(query);
+			return true;
+		} catch (SQLException err) {
+			System.out.println(err.getLocalizedMessage());
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean update(UpdateCommentDTO comment, int cod_comment) {
+		String query = String.format("UPDATE comment_entity SET text_comment = '%s' WHERE cod_comment = %d", comment.getText(), cod_comment);
 		try {
 			this.stm.execute(query);
 			return true;
@@ -104,5 +111,7 @@ public class CommentRepository implements CommentRepositoryInterface {
 		}
 		return new SimpleDateFormat("dd/MM/yyyy").format(dt);
 	}
+
+	
 
 }

@@ -1,6 +1,8 @@
 package service;
 
 import entities.Photo;
+import entities.dto.photo.CreatePhotoDTO;
+import entities.dto.photo.UpdatePhotoDTO;
 import repository.photo.PhotoRepository;
 
 public class PhotoService {
@@ -15,7 +17,7 @@ public class PhotoService {
 		}
 		return photos;
 	}
-	public static boolean create(Photo photo, int cod_user) {
+	public static boolean create(CreatePhotoDTO photo, int cod_user) {
 		try {
 			if (photo == null) throw new Exception("Ausencia de dados");
 			return repository.create(photo, cod_user);
@@ -24,7 +26,13 @@ public class PhotoService {
 		}
 		return false;
 	}
-	public static boolean update(Photo photo) {
+	public static boolean update(UpdatePhotoDTO photo, int cod_photo) {
+		try {
+			if (photo == null) throw new Exception("Ausencia de dados");
+			return repository.update(photo, cod_photo);
+		} catch (Exception err) {
+			System.out.println(err.getLocalizedMessage());
+		}
 		return false;
 	}
 	public static boolean delete(int cod_photo) {

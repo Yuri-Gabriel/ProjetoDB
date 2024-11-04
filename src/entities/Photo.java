@@ -1,9 +1,7 @@
 package entities;
 
-import java.util.Date;
-
 public class Photo {
-	private Integer id;
+	private int id;
 	private String name;
 	private String description;
 	private String upload_date;
@@ -11,13 +9,6 @@ public class Photo {
 	
 	public Photo(int id, String name, String description, String upload_date, int number_of_likes) {
 		this.setId(id);
-		this.setName(name);
-		this.setDescription(description);
-		this.setUpload_date(upload_date);
-		this.setNumber_of_likes(number_of_likes);
-	}
-	
-	public Photo(String name, String description, String upload_date, int number_of_likes) {
 		this.setName(name);
 		this.setDescription(description);
 		this.setUpload_date(upload_date);
@@ -49,11 +40,11 @@ public class Photo {
 		this.number_of_likes = number_of_likes;
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
