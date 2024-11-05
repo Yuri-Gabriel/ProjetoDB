@@ -77,10 +77,16 @@ public class UserRepository implements UserRepositoryInterface {
 	public boolean create(CreateUserDTO user) {
 		String query = String.format("INSERT INTO user_entity (name_user, email_user, password_user, biography_user) VALUES ('%s', '%s', '%s', '%s')", user.getName(), user.getEmail(), user.getPassword(), user.getBiography());
 		try {
-			this.stm.execute(query);
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
+			if(this.emailCanBeRegistered(user.getEmail())) {
+				this.stm.execute(query);
+				return true;
+			} else {
+				throw new Exception("Email já cadastrado");
+			}
+		} catch (SQLException err) {
+			System.out.println(err.getLocalizedMessage());
+		} catch (Exception err) {
+			System.out.println(err.getLocalizedMessage());
 		}
 		return false;
 	}
@@ -109,18 +115,29 @@ public class UserRepository implements UserRepositoryInterface {
 		return false;
 	}
 	
+	private boolean emailCanBeRegistered(String email_user) {
+		String query = String.format("SELECT email_user FROM user_entity WHERE email_user = '%s'", email_user);
+		try {
+			this.result_query = this.stm.executeQuery(query);
+			return !this.result_query.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
 	private String getUpdateQuery(UpdateUserDTO user, int cod_user) {
 		String columns = "";
-		if(user.getName() != "") {
+		if(user.getName().trim() != "") {
 			columns += String.format("name_user = '%s',", user.getName());
 		}
-		if(user.getEmail() != "") {
+		if(user.getEmail().trim() != "") {
 			columns += String.format("email_user = '%s',", user.getEmail());
 		}
-		if(user.getPassword() != "") {
+		if(user.getPassword().trim() != "") {
 			columns += String.format("password_user = '%s',", user.getPassword());
 		}
-		if(user.getBiography() != "") {
+		if(user.getBiography().trim() != "") {
 			columns += String.format("biography_user = '%s'", user.getBiography());
 		}
 		

@@ -24,13 +24,4 @@ public class LikeService {
 		}
 		return false;
 	}
-	public static boolean updateNumberOfLikes(int cod_photo) {
-		try {
-			if(cod_photo < 0) throw new Exception("Dados inválidos");
-			return repository.updateNumberOfLikes(cod_photo);
-		} catch (Exception err) {
-			System.out.println(err.getLocalizedMessage());
-		}
-		return false;
-	}
 }

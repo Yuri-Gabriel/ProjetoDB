@@ -6,17 +6,11 @@ public class CreateUserDTO {
 	private String password;
 	private String biography;
 	
-	public CreateUserDTO(String name, String email, String password) {
-		this.setName(name);
-		this.setEmail(email);
-		this.setPassword(password);
-	}
-	
 	public CreateUserDTO(String name, String email, String password, String biography) {
-		this.setName(name);
-		this.setEmail(email);
-		this.setPassword(password);
-		this.setBiography(biography);
+		this.setName(name.trim());
+		this.setEmail(email.trim());
+		this.setPassword(password.trim());
+		this.setBiography(biography.trim());
 	}
 	
 	public String getName() {

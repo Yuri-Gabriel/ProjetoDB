@@ -60,7 +60,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 
 	@Override
 	public boolean create(CreatePhotoDTO photo, int cod_user) {
-		String query = String.format("INSERT INTO photo_entity (name_photo, description_photo, data_upload_photo, number_of_likes_photo, cod_user) VALUES ('%s', '%s', '%s', '%d', '%d')", photo.getName(), photo.getDescription(), this.getAtualDate(), 0, cod_user);
+		String query = String.format("INSERT INTO photo_entity (name_photo, description_photo, date_upload_photo, number_of_likes_photo, cod_user) VALUES ('%s', '%s', '%s', '%d', '%d')", photo.getName(), photo.getDescription(), this.getAtualDate(), 0, cod_user);
 		try {
 			this.stm.execute(query);
 			return true;

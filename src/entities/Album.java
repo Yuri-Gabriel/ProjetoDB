@@ -44,4 +44,10 @@ public class Album {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("id: %d | name: %s | desc: %s | date: %s", this.getId(), this.getName(), this.getDescription(),this.getCreation_date());
+	}
+	
 }
