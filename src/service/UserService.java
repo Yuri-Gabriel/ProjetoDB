@@ -10,30 +10,36 @@ public class UserService {
 	
 	public static User[] getAll() throws Exception {
 		User[] users = repository.getAll();
-		if(users == null) throw new Exception("Sem usuarios cadastrados");
+		try {
+			if(users == null) throw new Exception("ERRO (UserService.getAll):\nSem usuarios cadastrados");
+		} catch (Exception err) {
+			System.out.println(err.getLocalizedMessage());
+		}
 		return users;
 	}
 	
-	public static User get(String email_user, String password_user) throws Exception {
+	public static User get(String email_user, String password_user) {
 		User user = null;
 		try {
-			if(email_user.trim() == "") throw new Exception("Campo email não foi informado");
-			if(password_user.trim() == "") throw new Exception("Campo senha não foi informado");
+			if(email_user == "") throw new Exception("ERRO (UserService.get):\nO campo email_user não foi informado");
+			if(password_user == "") throw new Exception("ERRO (UserService.get):\nO campo password_user não foi informado");
+			
 			user = repository.get(email_user, password_user);
-			if(user == null) throw new Exception("Usuario não encontrado");
+			
+			if(user == null) throw new Exception("ERRO (UserService.get):\nUsuario não encontrado");
 		} catch (Exception err) {
 			System.out.println(err.getLocalizedMessage());
 		}
 		return user;
 	}
 	
-	public static boolean create(CreateUserDTO user) throws Exception {
+	public static boolean create(CreateUserDTO user) {
 		try {
-			if(user == null) throw new Exception("Ausencia de dados");
+			if(user == null) throw new Exception("ERRO (UserService.create):\nA entidade CreateUserDTO não foi enviada");
 			
-			if(user.getName() == "") throw new Exception("Campo nome não foi informado");
-			if(user.getEmail() == "") throw new Exception("Campo email não foi informado");
-			if(user.getPassword() == "") throw new Exception("Campo senha não foi informado");
+			if(user.getName() == "") throw new Exception("ERRO (UserService.create):\nO atributo name da entidade CreateUserDTO não foi informado");
+			if(user.getEmail() == "") throw new Exception("ERRO (UserService.create):\nO atributo email da entidade CreateUserDTO não foi informado");
+			if(user.getPassword() == "") throw new Exception("ERRO (UserService.create):\nO atributo password da entidade CreateUserDTO não foi informado");
 			
 			return repository.create(user);
 		} catch (Exception err) {
@@ -42,11 +48,11 @@ public class UserService {
 		return false;
 	}
 	
-	public static boolean update(UpdateUserDTO user, int cod_user) throws Exception {
+	public static boolean update(UpdateUserDTO user, int cod_user) {
 		try {
-			if(user == null) throw new Exception("Ausencia de dados");
+			if(user == null) throw new Exception("ERRO (UserService.update):\nA entitdade UpdateUserDTO não foi enviada");
 			
-			if(cod_user < 0) throw new Exception("Código identificador inválido");
+			if(cod_user < 0) throw new Exception("ERRO (UserService.update):\nO código identificador (cod_user) informado é inválido");
 			
 			return repository.update(user, cod_user);
 		} catch (Exception err) {
@@ -57,7 +63,7 @@ public class UserService {
 	
 	public static boolean delete(int cod_user) {
 		try {
-			if(cod_user < 0) throw new Exception("Codigo identificador inválido");
+			if(cod_user < 0) throw new Exception("ERRO (UserService.delete):\nO código identificador (cod_user) informado é inválido");
 			return repository.delete(cod_user);
 		} catch (Exception err) {
 			System.out.println(err.getLocalizedMessage());

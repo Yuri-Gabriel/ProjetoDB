@@ -52,8 +52,8 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 				
 				cont++;
 			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+		} catch (SQLException err) {
+			System.out.println(err.getMessage());
 		}
 		return photos.length == 0 ? null : photos;
 	}
@@ -65,7 +65,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 			this.stm.execute(query);
 			return true;
 		} catch (SQLException err) {
-			err.printStackTrace();
+			System.out.println(err.getMessage());
 		}
 		return false;
 	}
@@ -77,7 +77,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 			this.stm.execute(query);
 			return true;
 		} catch (SQLException err) {
-			err.printStackTrace();
+			System.out.println(err.getMessage());
 		}
 		return false;
 	}
@@ -85,44 +85,6 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 	@Override
 	public boolean delete(int cod_photo) {
 		String query = String.format("DELETE FROM photo_entity WHERE cod_photo = '%d'", cod_photo);
-		try {
-			this.stm.execute(query);
-			return true;
-		} catch (SQLException err) {
-			//"Não existe nunhuma foto cadastrada com o codigo identificador informado"
-			System.out.println(err.getLocalizedMessage());
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean updateNumberOfLikes(int cod_photo) {
-		String query = String.format("UPDATE photo SET number_of_likes_photo = (SELECT COUNT(*) FROM like_entity WHERE cod_photo = %d) WHERE cod_photo = %d", cod_photo, cod_photo);
-		try {
-			this.stm.execute(query);
-			return true;
-		} catch (SQLException err) {
-			System.out.println(err.getLocalizedMessage());
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean incrementNumberOfLikes(int cod_photo) {
-		//UPDATE photo_entity SET number_of_likes_photo = number_of_likes_photo + 1 WHERE cod_photo = 7;
-		String query = String.format("UPDATE photo_entity SET number_of_likes_photo = number_of_likes_photo + 1 WHERE cod_photo = '%d'", cod_photo);
-		try {
-			this.stm.execute(query);
-			return true;
-		} catch (SQLException err) {
-			System.out.println(err.getLocalizedMessage());
-		}
-		return false;
-	}
-
-	@Override
-	public boolean decrementNumberOfLikes(int cod_photo) {
-		String query = String.format("UPDATE photo_entity SET number_of_likes_photo = number_of_likes_photo - 1 WHERE cod_photo = '%d'", cod_photo);
 		try {
 			this.stm.execute(query);
 			return true;

@@ -5,8 +5,8 @@ public class CreatePhotoDTO {
 	private String description;
 	
 	public CreatePhotoDTO(String name, String description) {
-		this.setName(name);
-		this.setDescription(description);
+		this.setName(name.trim());
+		this.setDescription(description.trim());
 	}
 	
 	public String getName() {
