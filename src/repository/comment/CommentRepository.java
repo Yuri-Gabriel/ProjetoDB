@@ -32,31 +32,40 @@ public class CommentRepository implements CommentRepositoryInterface {
 
 	@Override
 	public Comment[] getAllCommentByPhoto(int cod_photo) {
-		String query = String.format("SELECT cod_comment, text_comment, date_comment," + 
-									" (SELECT name_user FROM user_entity WHERE user_entity.cod_user = comment_entity.cod_user)" + 
-									" FROM comment_entity WHERE cod_photo = %d", cod_photo);
+		String query = String.format("SELECT cod_comment, text_comment, date_comment, name_user, email_user FROM comment_entity "
+									+ "INNER JOIN user_entity "
+									+ "ON comment_entity.cod_user = user_entity.cod_user "
+									+ "WHERE cod_photo = %d;", cod_photo);
 		Comment[] comments = null;
 		int count = 0;
 		try {
+			
 			this.result_query = this.stm.executeQuery(query);
 			while(this.result_query.next()) {
 				count++;
 			}
 			comments = new Comment[count];
+			
 			count = 0;
 			this.result_query = this.stm.executeQuery(query);
+			
 			while(this.result_query.next()) {
 				int id = Integer.parseInt(this.result_query.getString("cod_comment"));
 				String text = this.result_query.getString("text_comment");
 				String date = this.formatDate(this.result_query.getString("date_comment"));
+				String name_user = this.result_query.getString("name_user");
+				String email_user = this.result_query.getString("email_user");
 				
-				comments[count] = new Comment(id, text, date, null, null);
+				comments[count] = new Comment(id, text, date, null, new User(null, name_user, email_user, null, null));
 				
 				count++;
+				
 			}
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		
 		return comments;
 	}
 

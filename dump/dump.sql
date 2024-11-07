@@ -54,3 +54,24 @@ CREATE TABLE album_photo (
 	cod_photo integer NOT NULL,
 	FOREIGN KEY(cod_photo) REFERENCES photo_entity(cod_photo)
 );
+
+CREATE FUNCTION getNumberOfLikes(id_photo integer) RETURNS integer
+LANGUAGE plpgsql
+AS $$
+	DECLARE
+		numberOfLikes integer;
+	BEGIN
+		SELECT COUNT(*) INTO numberOfLikes FROM like_entity WHERE like_entity.cod_photo = id_photo;
+		RETURN numberOfLikes;
+	END
+$$;
+
+CREATE OR REPLACE PROCEDURE updateNumberOfLikes(id_photo integer)
+LANGUAGE plpgsql
+AS $$
+	BEGIN
+		UPDATE photo_entity 
+		SET number_of_likes_photo = (SELECT getnunberoflikes(id_photo)) 
+		WHERE cod_photo = id_photo;
+	END
+$$;

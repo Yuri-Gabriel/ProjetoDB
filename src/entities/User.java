@@ -1,13 +1,13 @@
 package entities;
 
 public class User {
-	private int id;
+	private Integer id;
 	private String name;
 	private String email;
 	private String password;
 	private String biography;
 	
-	public User(int id, String name, String email, String password, String biography) {
+	public User(Integer id, String name, String email, String password, String biography) {
 		this.setId(id);
 		this.setName(name);
 		this.setEmail(email);

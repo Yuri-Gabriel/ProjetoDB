@@ -47,7 +47,7 @@ public class LikeRepository implements LikeRepositoryInterface {
 	}
 
 	private boolean updateNumberOfLikes(int cod_photo) {
-		String query = String.format("UPDATE photo_entity SET number_of_likes_photo = (SELECT COUNT(*) FROM like_entity WHERE cod_photo = %d) WHERE cod_photo = %d", cod_photo, cod_photo);
+		String query = String.format("CALL updateNumberOfLikes(%d);", cod_photo);
 		try {
 			this.stm.execute(query);
 			return true;
