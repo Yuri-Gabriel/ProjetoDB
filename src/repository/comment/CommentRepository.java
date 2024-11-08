@@ -59,7 +59,7 @@ public class CommentRepository implements CommentRepositoryInterface {
 				String email_user = this.result_query.getString("email_user");
 				
 				comments[count] = new Comment(id_photo, text, date, null, new User(id_user, name_user, email_user, null, null));
-				System.out.println(comments[count]);
+				
 				count++;
 				
 			}

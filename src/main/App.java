@@ -11,11 +11,12 @@ public class App {
 
 	public static void main(String[] args) throws Exception { //memory
 		
-		//CommentService.create(new CreateCommentDTO("catapimbas", 1, 9));
-		Comment[] comments = CommentService.getAllCommentByPhoto(9);
-		System.out.println(comments);
+		Comment[] comments = CommentService.getAllCommentByPhoto(-3);
+		/*
 		for(Comment c : comments) {
 			System.out.println(c.toString());
+			System.out.println("	" + c.getUser().toString());
 		}
+		*/
 	}
 }

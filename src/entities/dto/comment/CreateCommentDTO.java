@@ -7,7 +7,7 @@ public class CreateCommentDTO {
 	private int cod_user;
 	
 	public CreateCommentDTO(String text, int cod_user, int cod_photo) {
-		this.setText(text);
+		this.setText(text.trim());
 		this.setCod_user(cod_user);
 		this.setCod_photo(cod_photo);
 	}

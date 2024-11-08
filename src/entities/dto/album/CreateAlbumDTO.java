@@ -6,8 +6,8 @@ public class CreateAlbumDTO {
 	private String description;
 	
 	public CreateAlbumDTO(String name, String description) {
-		this.setName(name);
-		this.setDescription(description);
+		this.setName(name.trim());
+		this.setDescription(description.trim());
 	}
 	
 	public String getName() {
