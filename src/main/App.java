@@ -9,14 +9,8 @@ import service.*;
 
 public class App {
 
-	public static void main(String[] args) throws Exception { //memory
+	public static void main(String[] args) throws Exception { 
+		UserService.create(new CreateUserDTO("walter", "waltinho123@gmail.com", "walwal1234", ""));
 		
-		Comment[] comments = CommentService.getAllCommentByPhoto(-3);
-		/*
-		for(Comment c : comments) {
-			System.out.println(c.toString());
-			System.out.println("	" + c.getUser().toString());
-		}
-		*/
 	}
 }
