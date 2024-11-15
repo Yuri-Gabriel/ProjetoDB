@@ -1,33 +1,13 @@
 package entities;
 
 public class User {
-	private Integer id = null;
+	private Integer id;
 	private String name;
 	private String email;
 	private String password;
 	private String biography;
 	
-	public User(String name, String email, String password) {
-		this.setName(name);
-		this.setEmail(email);
-		this.setPassword(password);
-	}
-	
-	public User(String name, String email, String password, String biography) {
-		this.setName(name);
-		this.setEmail(email);
-		this.setPassword(password);
-		this.setBiography(biography);
-	}
-	
-	public User(int id, String name, String email, String password) {
-		this.setId(id);
-		this.setName(name);
-		this.setEmail(email);
-		this.setPassword(password);
-	}
-	
-	public User(int id, String name, String email, String password, String biography) {
+	public User(Integer id, String name, String email, String password, String biography) {
 		this.setId(id);
 		this.setName(name);
 		this.setEmail(email);
@@ -59,16 +39,15 @@ public class User {
 	public void setBiography(String biography) {
 		this.biography = biography;
 	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("id: %d | name: %s | email: %s | password: %s | biography: %s", this.getId(), this.getName(), this.getEmail(), this.getPassword(), this.getBiography());
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 }

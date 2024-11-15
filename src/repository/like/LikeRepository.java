@@ -25,6 +25,7 @@ public class LikeRepository implements LikeRepositoryInterface {
 		String query = String .format("INSERT INTO like_entity (cod_user, cod_photo) VALUES (%d, %d)", cod_user, cod_photo);
 		try {
 			this.stm.execute(query);
+			this.updateNumberOfLikes(cod_photo);
 			return true;
 		} catch (SQLException err) {
 			System.out.println(err.getLocalizedMessage());
@@ -37,6 +38,7 @@ public class LikeRepository implements LikeRepositoryInterface {
 		String query = String.format("DELETE FROM like_entity WHERE cod_user = %d AND cod_photo = %d", cod_user, cod_photo);
 		try {
 			this.stm.execute(query);
+			this.updateNumberOfLikes(cod_photo);
 			return true;
 		} catch (SQLException err) {
 			System.out.println(err.getLocalizedMessage());
@@ -44,9 +46,8 @@ public class LikeRepository implements LikeRepositoryInterface {
 		return false;
 	}
 
-	@Override
-	public boolean updateNumberOfLikes(int cod_photo) {
-		String query = String.format("UPDATE photo_entity SET number_of_likes_photo = (SELECT COUNT(*) FROM like_entity WHERE cod_photo = %d) WHERE cod_photo = %d", cod_photo, cod_photo);
+	private boolean updateNumberOfLikes(int cod_photo) {
+		String query = String.format("CALL updateNumberOfLikes(%d);", cod_photo);
 		try {
 			this.stm.execute(query);
 			return true;

@@ -12,6 +12,8 @@ import java.util.Date;
 import entities.Comment;
 import entities.Photo;
 import entities.User;
+import entities.dto.comment.CreateCommentDTO;
+import entities.dto.comment.UpdateCommentDTO;
 import repository.ConnectionDB;
 
 public class CommentRepository implements CommentRepositoryInterface {
@@ -29,16 +31,12 @@ public class CommentRepository implements CommentRepositoryInterface {
 	}
 
 	@Override
-	public Comment[] getAllCommentByUser(int cod_user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Comment[] getAllCommentByPhoto(int cod_photo) {
-		String query = String.format("SELECT cod_comment, text_comment, date_comment," + 
-									" (SELECT name_user FROM user_entity WHERE user_entity.cod_user = comment_entity.cod_user)" + 
-									" FROM comment_entity WHERE cod_photo = %d", cod_photo);
+		String query = String.format("SELECT cod_comment, text_comment, date_comment, user_entity.cod_user, name_user, email_user "
+									+ "FROM comment_entity "
+									+ "INNER JOIN user_entity "
+									+ "ON comment_entity.cod_user = user_entity.cod_user "
+									+ "WHERE cod_photo = %d", cod_photo);
 		Comment[] comments = null;
 		int count = 0;
 		try {
@@ -47,17 +45,25 @@ public class CommentRepository implements CommentRepositoryInterface {
 				count++;
 			}
 			comments = new Comment[count];
+			
 			count = 0;
 			this.result_query = this.stm.executeQuery(query);
+			
 			while(this.result_query.next()) {
-				int id = Integer.parseInt(this.result_query.getString("cod_comment"));
+				int id_photo = Integer.parseInt(this.result_query.getString("cod_comment"));
 				String text = this.result_query.getString("text_comment");
 				String date = this.formatDate(this.result_query.getString("date_comment"));
 				
-				comments[count] = new Comment(id, text, date, null, null);
+				int id_user = Integer.parseInt(this.result_query.getString("cod_user"));
+				String name_user = this.result_query.getString("name_user");
+				String email_user = this.result_query.getString("email_user");
+				
+				comments[count] = new Comment(id_photo, text, date, null, new User(id_user, name_user, email_user, null, null));
 				
 				count++;
+				
 			}
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -65,8 +71,20 @@ public class CommentRepository implements CommentRepositoryInterface {
 	}
 
 	@Override
-	public boolean create(Comment comment, int cod_photo, int cod_user) {
-		String query = String.format("INSERT INTO comment_entity (text_comment, date_comment, cod_photo, cod_user) VALUES ('%s', '%s', %d, %d)", comment.getText(), this.getAtualDate(), cod_photo, cod_user);
+	public boolean create(CreateCommentDTO comment) {
+		String query = String.format("INSERT INTO comment_entity (text_comment, date_comment, cod_photo, cod_user) VALUES ('%s', '%s', %d, %d)", comment.getText(), this.getAtualDate(), comment.getCod_photo(), comment.getCod_user());
+		try {
+			this.stm.execute(query);
+			return true;
+		} catch (SQLException err) {
+			System.out.println(err.getLocalizedMessage());
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean update(UpdateCommentDTO comment, int cod_comment) {
+		String query = String.format("UPDATE comment_entity SET text_comment = '%s' WHERE cod_comment = %d", comment.getText(), cod_comment);
 		try {
 			this.stm.execute(query);
 			return true;
@@ -103,5 +121,7 @@ public class CommentRepository implements CommentRepositoryInterface {
 		}
 		return new SimpleDateFormat("dd/MM/yyyy").format(dt);
 	}
+
+	
 
 }
