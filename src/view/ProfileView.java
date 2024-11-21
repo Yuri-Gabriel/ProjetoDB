@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import entities.Photo;
 import entities.User;
+import entities.dto.photo.CreatePhotoDTO;
 import service.PhotoService;
 
 public class ProfileView extends ViewMethods {
@@ -42,26 +43,27 @@ public class ProfileView extends ViewMethods {
 	}
 	
 	private static void photos(int cod_user) {
-		Photo[] photos = PhotoService.getAllByUser(cod_user);
-		if(!showAllPhotos(photos)) {
-			return;
-		}
-		
 		int option = -1;
+		int cod_photo = -1;
 		
 		do {
+			Photo[] photos = PhotoService.getAllByUser(cod_user);
+			if(!showAllPhotos(photos)) {
+				return;
+			}
 			System.out.println("[0] - Postar uma nova foto");
 			System.out.println("[1] - Acessar uma foto especifica");
 			System.out.println("[2] - Adicionar uma foto a um album");
-			System.out.println("[3] - Voltar");
-			option = getIntInput(0, 2);
+			System.out.println("[3] - Deletar uma foto");
+			System.out.println("[4] - Voltar");
+			option = getIntInput(0, 3);
 			switch(option) {
 				case 0:
-					//postar uma foto
+					postNewPhoto(cod_user);
 					break;
 				case 1:
 					System.out.println("Digite o codigo da foto que deseja acessar ou -1 para cancelar: ");
-					int cod_photo = scan.nextInt();
+					cod_photo = scan.nextInt();
 					if(cod_photo != -1) {
 						if(IsValidPhotoCode(photos, cod_photo)) {
 							option = PhotoView.main(photos[cod_photo]);
@@ -71,15 +73,45 @@ public class ProfileView extends ViewMethods {
 					}
 					break;
 				case 2:
+					//Add em um album
 					break;
 				case 3:
+					System.out.println("Digite o codigo da foto que deseja acessar ou -1 para cancelar: ");
+					cod_photo = scan.nextInt();
+					if(cod_photo != -1) {
+						deletePhoto(photos, cod_photo);
+					}
 					return;
 			}
-		} while(true);
+		} while(option != 4);
 	}
 	
-	private static void postNewPhoto() {
+	private static void deletePhoto(Photo[] photos, int cod_photo) {
+		if(IsValidPhotoCode(photos, cod_photo)) {
+			if(PhotoService.delete(cod_photo)) System.out.println("Foto deletada");
+		} else {
+			System.out.println("O codigo informado é invalido");
+		}
+	}
+	
+	private static void postNewPhoto(int cod_user) {
+		System.out.print("Digite um titulo para a foto ou 'e' para cancelar: ");
+		String title = scan.next().trim();
 		
+		if(title.equals("e")) return;
+		
+		System.out.print("Digite uma descrição para a foto ou 'e' para cancelar: ");
+		String description = scan.next().trim();
+		
+		if(description.equals("e")) return;
+		
+		boolean created = PhotoService.create(new CreatePhotoDTO(title, description), cod_user);
+		
+		if(created) {
+			System.out.println("------------------------");
+			System.out.println("      Foto postada      ");
+			System.out.println("------------------------");
+		}
 	}
 	
 	private static boolean showAllPhotos(Photo[] photos) {
