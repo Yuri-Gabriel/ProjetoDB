@@ -6,7 +6,7 @@ import entities.Photo;
 import entities.User;
 import service.PhotoService;
 
-public class FeedView extends ViewInputs {
+public class FeedView extends ViewMethods {
 	private static Scanner scan = new Scanner(System.in);
 	
 	public static int main(User user) {
@@ -17,7 +17,8 @@ public class FeedView extends ViewInputs {
 			showPhotos(photos);
 			System.out.println("[0] - Acessar uma foto especifica");
 			System.out.println("[1] - Meu perfil");
-			System.out.println("[2] - Sair do programa");
+			System.out.println("[2] - Buscar um perfil");
+			System.out.println("[3] - Sair do programa");
 			option = getIntInput(0, 2);
 			switch(option) {
 				case 0:
@@ -32,19 +33,23 @@ public class FeedView extends ViewInputs {
 					}
 					break;
 				case 1:
-					option = ProfileView.main(user);
+					option = ProfileView.main(user, null);
+					switch(option) {
+						case 3:
+							return -1;
+						case 5:
+							return 2;
+					}
+					break;
+				case 2:
+					option = SearchView.main();
 					break;
 			}
-		} while(option != 2);
+		} while(option != 3);
 		return 2;
 	}
 	
-	private static boolean IsValidPhotoCode(Photo[] photos, int cod_photo) {
-		for(int i = 0; i < photos.length; i++) {
-			if(cod_photo == photos[i].getId()) return true;
-		}
-		return false;
-	}
+	
 	
 	private static void showPhotos(Photo[] photos) {
 		for(Photo p : photos) {

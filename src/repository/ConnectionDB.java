@@ -15,7 +15,7 @@ public class ConnectionDB {
 	
 	private String url = "jdbc:postgresql://localhost/projetodb";
 	private String user = "postgres";
-	private String password = "12345678";
+	private String password = "postgres";
 	
 	public ConnectionDB() {
 		try {

@@ -6,7 +6,7 @@ import entities.User;
 import entities.dto.user.CreateUserDTO;
 import service.UserService;
 
-public class IndexView extends ViewInputs {
+public class IndexView extends ViewMethods {
 	private static Scanner scan = new Scanner(System.in);
 	
 	public static void main() {

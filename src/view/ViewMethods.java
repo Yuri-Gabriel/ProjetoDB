@@ -2,7 +2,9 @@ package view;
 
 import java.util.Scanner;
 
-public class ViewInputs {
+import entities.Photo;
+
+public class ViewMethods {
 	private static Scanner scan = new Scanner(System.in);
 	
 	public static int getIntInput(int minBound, int maxBound) {
@@ -15,5 +17,12 @@ public class ViewInputs {
 			}
 		} while(value < minBound || value > maxBound);
 		return value;
+	}
+	
+	public static boolean IsValidPhotoCode(Photo[] photos, int cod_photo) {
+		for(int i = 0; i < photos.length; i++) {
+			if(cod_photo == photos[i].getId()) return true;
+		}
+		return false;
 	}
 }
