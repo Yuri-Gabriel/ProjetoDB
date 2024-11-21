@@ -48,20 +48,20 @@ public class ConnectionDB {
 				
 				query += lineFile.trim() + " ";
 				
-				if(lineFile.length() == 0) {
+				if(lineFile.trim().length() == 0) {
 					queryList.add(query);
 					query = "";
+					
 				}
 				
 			}
 			queryList.forEach((q) -> {
+				
 				try {
 					Statement stm = conn.createStatement();
 					stm.execute(q);
 				} catch (SQLException e) {
 					e.printStackTrace();
-				} finally {
-					System.out.println("criado");
 				}
 			});
 			

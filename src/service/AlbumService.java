@@ -1,22 +1,14 @@
 package service;
 
 import entities.Album;
-<<<<<<< HEAD
-=======
 import entities.dto.album.CreateAlbumDTO;
 import entities.dto.album.UpdateAlbumDTO;
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
 import repository.album.AlbumRepository;
 
 public class AlbumService {
 	private static AlbumRepository repository = new AlbumRepository();
 	
 	public static Album[] getAllAlbumByUser(int cod_user) {
-<<<<<<< HEAD
-		return repository.getAllAlbumByUser(cod_user);
-	}
-}
-=======
 		Album[] albuns = null;
 		try {
 			if(cod_user < 0) throw new Exception("ERRO (AlbumService.getAllAlbumByUser):\nO código identificador (cod_user) informado é inválido");
@@ -79,4 +71,3 @@ public class AlbumService {
 		return false;
 	}
 }
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9

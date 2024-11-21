@@ -4,28 +4,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-<<<<<<< HEAD
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-=======
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
 import java.util.Date;
 
 import entities.Album;
 import entities.Photo;
-<<<<<<< HEAD
-=======
 
 import entities.dto.album.CreateAlbumDTO;
 import entities.dto.album.UpdateAlbumDTO;
 
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
 import repository.ConnectionDB;
 
 public class AlbumRepository implements AlbumRepositoryInterface {
@@ -72,26 +63,12 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 				String creation_date_album = this.formatDate(this.result_query.getString("creation_date_album"));
 				
 				albums[count] = new Album(id, name_album, description_album, creation_date_album);
-<<<<<<< HEAD
-				result_query_photos = stm_photo.executeQuery(String.format("SELECT pe.name_photo, pe.description_photo, pe.data_upload_photo, pe.number_of_likes_photo FROM photo_entity pe, album_photo ap WHERE ap.cod_album = %d AND ap.cod_photo = pe.cod_photo", id));
-=======
 				result_query_photos = stm_photo.executeQuery(String.format("SELECT pe.name_photo, pe.description_photo, pe.date_upload_photo, pe.number_of_likes_photo FROM photo_entity pe, album_photo ap WHERE ap.cod_album = %d AND ap.cod_photo = pe.cod_photo", id));
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
 				while(result_query_photos.next()) {
 					count_photo++;
 				}
 				photos = new Photo[count_photo];
 				count_photo = 0;
-<<<<<<< HEAD
-				result_query_photos = stm_photo.executeQuery(String.format("SELECT pe.name_photo, pe.description_photo, pe.data_upload_photo, pe.number_of_likes_photo FROM photo_entity pe, album_photo ap WHERE ap.cod_album = %d AND ap.cod_photo = pe.cod_photo", id));
-				while(result_query_photos.next()) {
-					String name_photo = result_query_photos.getString("name_photo");
-					String description_photo = result_query_photos.getString("description_photo");
-					String data_upload_photo = this.formatDate(result_query_photos.getString("data_upload_photo"));
-					int number_of_likes_photo = Integer.parseInt(result_query_photos.getString("number_of_likes_photo"));
-					
-					photos[count_photo] = new Photo(name_photo, description_photo, data_upload_photo, number_of_likes_photo);
-=======
 				result_query_photos = stm_photo.executeQuery(String.format("SELECT pe.cod_photo, pe.name_photo, pe.description_photo, pe.date_upload_photo, pe.number_of_likes_photo FROM photo_entity pe, album_photo ap WHERE ap.cod_album = %d AND ap.cod_photo = pe.cod_photo", id));
 				while(result_query_photos.next()) {
 					int cod_photo = Integer.parseInt(result_query_photos.getString("cod_photo"));
@@ -100,8 +77,7 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 					String data_upload_photo = this.formatDate(result_query_photos.getString("date_upload_photo"));
 					int number_of_likes_photo = Integer.parseInt(result_query_photos.getString("number_of_likes_photo"));
 					
-					photos[count_photo] = new Photo(cod_photo, name_photo, description_photo, data_upload_photo, number_of_likes_photo);
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
+					photos[count_photo] = new Photo(cod_photo, name_photo, description_photo, data_upload_photo, number_of_likes_photo, null);
 					count_photo++;
 				}
 				albums[count].setPhotos(photos);
@@ -114,10 +90,6 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public boolean create(Album album, int cod_user) {
-		String query = String.format("INSERT INTO album_entity (name_album, description_album, creation_date_album, cod_user) VALUES ('%s', '%s', '%s')", album.getName(), album.getDescription(), this.getAtualDate(), cod_user);
-=======
 	public boolean create(CreateAlbumDTO album, int cod_user) {
 		String query = String.format("INSERT INTO album_entity (name_album, description_album, creation_date_album, cod_user) VALUES ('%s', '%s', '%s', %d)", album.getName(), album.getDescription(), this.getAtualDate(), cod_user);
 		try {
@@ -132,7 +104,6 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 	@Override
 	public boolean update(UpdateAlbumDTO album, int cod_album) {
 		String query = this.getUpdateQuery(album, cod_album);
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
 		try {
 			this.stm.execute(query);
 			return true;
@@ -165,8 +136,6 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 		return false;
 	}
 	
-<<<<<<< HEAD
-=======
 	private String getUpdateQuery(UpdateAlbumDTO album, int cod_album) {
 		String columns = "";
 		
@@ -186,7 +155,6 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 		return String.format("UPDATE album_entity SET %s WHERE cod_user = '%s'", columns, cod_album);
 	}
 	
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
 	private String getAtualDate() {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = new Date();
@@ -203,8 +171,4 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 		return new SimpleDateFormat("dd/MM/yyyy").format(dt);
 	}
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9

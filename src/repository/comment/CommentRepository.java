@@ -32,7 +32,7 @@ public class CommentRepository implements CommentRepositoryInterface {
 
 	@Override
 	public Comment[] getAllCommentByPhoto(int cod_photo) {
-		String query = String.format("SELECT cod_comment, text_comment, date_comment, user_entity.cod_user, name_user, email_user "
+		String query = String.format("SELECT cod_photo, cod_comment, text_comment, date_comment, user_entity.cod_user, name_user, email_user \n"
 									+ "FROM comment_entity "
 									+ "INNER JOIN user_entity "
 									+ "ON comment_entity.cod_user = user_entity.cod_user "

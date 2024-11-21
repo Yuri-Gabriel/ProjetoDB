@@ -76,3 +76,10 @@ AS $$
 	END
 $$;
 
+DROP VIEW IF EXISTS getallphotos;
+
+CREATE OR REPLACE VIEW getAllPhotos AS
+SELECT photo_entity.*, user_entity.name_user, user_entity.email_user FROM photo_entity 
+INNER JOIN user_entity 
+ON photo_entity.cod_user = user_entity.cod_user;
+	

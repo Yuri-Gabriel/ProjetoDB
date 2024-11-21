@@ -10,6 +10,17 @@ public class PhotoService {
 	private static PhotoRepository repository = new PhotoRepository();
 	private static LikeRepository like_repository = new LikeRepository();
 	
+	public static Photo[] getAll() {
+		Photo[] photos = null;
+		try {
+			photos = repository.getAll();
+			if(photos == null) throw new Exception("ERRO (PhotoService.getAll): Fotos não foram postadas");
+		} catch (Exception err) {
+			System.out.println(err.getLocalizedMessage());
+		}
+		return photos;
+	}
+	
 	public static Photo[] getAllByUser(int cod_user) {
 		Photo[] photos = null;
 		try {

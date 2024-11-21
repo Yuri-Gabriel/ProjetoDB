@@ -6,13 +6,15 @@ public class Photo {
 	private String description;
 	private String upload_date;
 	private Integer number_of_likes;
+	private User user;
 	
-	public Photo(int id, String name, String description, String upload_date, int number_of_likes) {
+	public Photo(int id, String name, String description, String upload_date, int number_of_likes, User user) {
 		this.setId(id);
 		this.setName(name);
 		this.setDescription(description);
 		this.setUpload_date(upload_date);
 		this.setNumber_of_likes(number_of_likes);
+		this.setUser(user);
 	}
 	
 	public String getName() {
@@ -51,5 +53,13 @@ public class Photo {
 	@Override
 	public String toString() {
 		return String.format("id: %d | name: %s | description: %s | upload_date: %s | number_of_likes: %d", this.getId(), this.getName(), this.getDescription(), this.getUpload_date(), this.getNumber_of_likes());
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

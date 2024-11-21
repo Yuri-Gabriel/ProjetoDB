@@ -50,6 +50,6 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return String.format("id: %d | text: %s | date: %s", this.getId(), this.getText(), this.getDate());
+		return String.format("id_comment: %d | text: %s | date: %s | %s", this.getId(), this.getText(), this.getDate(), this.getUser().toString());
 	}
 }

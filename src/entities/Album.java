@@ -1,11 +1,7 @@
 package entities;
 
 public class Album {
-<<<<<<< HEAD
-	private Integer id;
-=======
 	private int id;
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
 	private String name;
 	private String description;
 	private String creation_date;
@@ -16,15 +12,6 @@ public class Album {
 		this.setName(name);
 		this.setDescription(description);
 		this.setCreation_date(creation_date);
-<<<<<<< HEAD
-	}
-	
-	public Album(String name, String description, String creation_date) {
-		this.setName(name);
-		this.setDescription(description);
-		this.setCreation_date(creation_date);
-=======
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
 	}
 	
 	public String getName() {
@@ -51,21 +38,6 @@ public class Album {
 	public void setPhotos(Photo[] photos) {
 		this.photos = photos;
 	}
-<<<<<<< HEAD
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}	
-	
-	@Override
-	public String toString() {
-		return String.format("id: %d | name: %s ", this.getId(), this.getName());
-	}
-=======
 	public int getId() {
 		return id;
 	}
@@ -78,5 +50,4 @@ public class Album {
 		return String.format("id: %d | name: %s | desc: %s | date: %s", this.getId(), this.getName(), this.getDescription(),this.getCreation_date());
 	}
 	
->>>>>>> bd1d6228ab1213ef626083c538174680c11198f9
 }

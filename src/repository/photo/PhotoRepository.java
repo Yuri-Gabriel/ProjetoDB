@@ -7,9 +7,11 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import entities.Photo;
+import entities.User;
 import entities.dto.photo.CreatePhotoDTO;
 import entities.dto.photo.UpdatePhotoDTO;
 import repository.ConnectionDB;
@@ -26,6 +28,44 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public Photo[] getAll() {
+		Photo[] photos = null;
+		String query = "SELECT * FROM getallphotos";
+		
+		try {
+			this.result_query = this.stm.executeQuery(query);
+			int cont = 0;
+			while(this.result_query.next()) {
+				cont++;
+			}
+			photos = new Photo[cont];
+			cont = 0;
+			this.result_query = this.stm.executeQuery(query);
+			while(this.result_query.next()) {
+				int id = Integer.parseInt(this.result_query.getString("cod_photo"));
+				String name_photo = this.result_query.getString("name_photo");
+				String description = this.result_query.getString("description_photo");
+				String date = this.formatDate(this.result_query.getString("data_upload_photo"));
+				int number_of_likes = Integer.parseInt(this.result_query.getString("number_of_likes_photo"));
+				int cod_user = Integer.parseInt(this.result_query.getString("cod_user"));
+				String name_user = this.result_query.getString("name_user");
+				String email_user = this.result_query.getString("email_user");
+				
+				Photo photo = new Photo(id, name_photo, description, date, number_of_likes, new User(cod_user, name_user, email_user, null, null));
+				
+				photos[cont] = photo;
+				
+				cont++;
+				
+			}
+			
+		} catch (SQLException err) {
+			System.out.println(err.toString());
+		}
+		return photos;
 	}
 
 	@Override
@@ -48,7 +88,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 				String date = this.formatDate(this.result_query.getString("date_upload_photo"));
 				int number_of_likes = Integer.parseInt(this.result_query.getString("number_of_likes_photo"));
 				
-				photos[cont] = new Photo(id, name, description, date, number_of_likes);
+				photos[cont] = new Photo(id, name, description, date, number_of_likes, null);
 				
 				cont++;
 			}
