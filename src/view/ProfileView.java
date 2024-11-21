@@ -5,7 +5,9 @@ import java.util.Scanner;
 import entities.Photo;
 import entities.User;
 import entities.dto.photo.CreatePhotoDTO;
+import entities.dto.user.UpdateUserDTO;
 import service.PhotoService;
+import service.UserService;
 
 public class ProfileView extends ViewMethods {
 	
@@ -35,11 +37,23 @@ public class ProfileView extends ViewMethods {
 				case 1:
 					break;
 				case 2:
+					editBiografy(user);
 					break;
 			}
 		} while(option >= 0 && option <= 2);
 		
 		return option;
+	}
+	
+	private static void editBiografy(User user) {
+		System.out.print("Escreva uma nova biografia ou digite 'e' para cancelar: ");
+		String biografy = scan.next().trim();
+		
+		if(biografy.equals("e")) return;
+		
+		boolean updated = UserService.update(new UpdateUserDTO("", "", "", biografy), user.getId());
+		
+		if(updated) System.out.println("Biografia atualzada");
 	}
 	
 	private static void photos(int cod_user) {
