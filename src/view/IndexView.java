@@ -12,7 +12,9 @@ public class IndexView extends ViewMethods {
 	public static void main() throws Exception {
 		int option = -1;
 		do {
-			System.out.println("       Login");
+			System.out.println("<><><><><><><><><><><><>");
+			System.out.println("          Login         ");
+			System.out.println("<><><><><><><><><><><><>");
 			System.out.println("[0] - Realizar login");
 			System.out.println("[1] - Criar uma conta");
 			System.out.println("[2] - Sair do programa");

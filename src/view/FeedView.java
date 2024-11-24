@@ -9,18 +9,23 @@ import service.UserService;
 
 public class FeedView extends ViewMethods {
 	private static Scanner scan = new Scanner(System.in);
+	private static int numberMaxOfPhotosToShow = 10; 
 	
 	public static int main(User user) throws Exception {
+		
 		int option = 2;
 		do {
 			Photo[] photos = PhotoService.getAll();
+			System.out.println("<><><><><><><><><><>");
 			System.out.println("        FEED        ");
+			System.out.println("<><><><><><><><><><>");
 			showPhotos(photos);
 			System.out.println("[0] - Acessar uma foto especifica");
 			System.out.println("[1] - Meu perfil");
 			System.out.println("[2] - Buscar um perfil");
-			System.out.println("[3] - Sair do programa");
-			option = getIntInput(0, 3);
+			System.out.println("[3] - Exibir mais fotos");
+			System.out.println("[4] - Sair do programa");
+			option = getIntInput(0, 4);
 			switch(option) {
 				case 0:
 					System.out.println("Digite o codigo da foto que deseja acessar ou -1 para cancelar: ");
@@ -43,6 +48,9 @@ public class FeedView extends ViewMethods {
 							return -1;
 						case 5:
 							return 2;
+						case 4:
+							option = -1;
+							break;
 					}
 					break;
 				case 2:
@@ -62,15 +70,27 @@ public class FeedView extends ViewMethods {
 						}
 					}
 					break;
+				case 3:
+					if(numberMaxOfPhotosToShow < photos.length) {
+						numberMaxOfPhotosToShow += 5;
+					}
+					
+					break;
 			}
-		} while(option != 3);
+		} while(option != 4);
 		return 2;
 	}
 	
 	
 	
 	private static void showPhotos(Photo[] photos) {
-		for(Photo p : photos) {
+		if(photos == null) {
+			System.out.println("------------------------");
+			System.out.println("  Nenhuma foto postada  ");
+			System.out.println("------------------------");
+			return;
+		}
+		for(int i = 0; i < numberMaxOfPhotosToShow; i++) {
 			String photoSTR = String.format("--------------------\n" 
 										  + "       FOTO %d      \n"
 					                      + " Titulo: %s\n"
@@ -79,14 +99,17 @@ public class FeedView extends ViewMethods {
 										  + " Numero de likes: %d\n"
 					                      + " Usuario: %s\n"
 										  + " Email: %s\n"
-					                      + "--------------------\n" , p.getId(), 
-					                      								p.getName(),
-														  			    p.getDescription(),
-																	    p.getUpload_date(),
-																		p.getNumber_of_likes(),
-																		p.getUser().getName(),
-																		p.getUser().getEmail());
+					                      + "--------------------\n" , photos[i].getId(), 
+					                      								photos[i].getName(),
+					                      								photos[i].getDescription(),
+					                      								photos[i].getUpload_date(),
+					                      								photos[i].getNumber_of_likes(),
+					                      								photos[i].getUser().getName(),
+					                      								photos[i].getUser().getEmail());
 			System.out.println(photoSTR);
+		}
+		if(numberMaxOfPhotosToShow == photos.length) {
+			System.out.println("Todas as fotos ja foram exibidas");
 		}
 	}
 }

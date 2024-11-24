@@ -1,18 +1,20 @@
 CREATE TABLE IF NOT EXISTS  user_entity (
 	cod_user serial NOT NULL,
 	PRIMARY KEY(cod_user),
-	name_user varchar(15) NOT NULL,
-	email_user varchar(30) NOT NULL,
-	password_user varchar(20) NOT NULL,
+	name_user varchar NOT NULL,
+	email_user varchar NOT NULL,
+	password_user varchar NOT NULL,
 	biography_user text
 );
 
 CREATE TABLE IF NOT EXISTS  album_entity (
 	cod_album serial NOT NULL,
 	PRIMARY KEY(cod_album),
-	name_album varchar(20) NOT NULL,
+	name_album varchar NOT NULL,
 	description_album text,
-	creation_date_album date NOT NULL
+	creation_date_album date NOT NULL,
+	cod_user integer NOT NULL,
+	FOREIGN KEY(cod_user) REFERENCES user_entity(cod_user) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS  photo_entity (
@@ -82,4 +84,4 @@ CREATE OR REPLACE VIEW getAllPhotos AS
 SELECT photo_entity.*, user_entity.name_user, user_entity.email_user FROM photo_entity 
 INNER JOIN user_entity 
 ON photo_entity.cod_user = user_entity.cod_user;
-	
+

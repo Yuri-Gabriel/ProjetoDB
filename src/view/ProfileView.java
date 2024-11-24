@@ -29,14 +29,17 @@ public class ProfileView extends ViewMethods {
 	private static int MyProfile() {
 		int option = -1;
 		do {
-			System.out.println("         Profile        ");
+			System.out.println("<><><><><><><><><><><><>");
+			System.out.println("         PROFILE        ");
+			System.out.println("<><><><><><><><><><><><>");
+			showUserData(user_login);
 			System.out.println("[0] - Acessar suas fotos");
 			System.out.println("[1] - Acessar seus albuns");
 			System.out.println("[2] - Editar sua biografia");
 			System.out.println("[3] - Sair da conta");
 			System.out.println("[4] - Voltar");
 			System.out.println("[5] - Sair do programa");
-			option = getIntInput(0, 7);
+			option = getIntInput(0, 5);
 			switch(option) {
 				case 0:
 					option = photos();
@@ -52,6 +55,17 @@ public class ProfileView extends ViewMethods {
 		} while(option >= 0 && option <= 2);
 		
 		return option;
+	}
+	
+	private static void showUserData(User user) {
+		String userSTR = String.format("=====================\n" 
+									 + " Nome: %s\n"
+									 + " Email: %s\n"
+									 + " Biografia: %s\n" 
+									 + "=====================\n" , user.getName(),
+									 								user.getEmail(),
+									 								user.getBiography());
+		System.out.println(userSTR);
 	}
 	
 	private static void editBiografy() {
@@ -413,9 +427,12 @@ public class ProfileView extends ViewMethods {
 	}
 	
 	private static int OtherProfile(User user_searched) {
-		System.out.println("akhsjd");
 		int option = -1;
 		do {
+			System.out.println("<><><><><><><><><><><><>");
+			System.out.println("         PROFILE        ");
+			System.out.println("<><><><><><><><><><><><>");
+			showUserData(user_searched);
 			System.out.println("[0] - Acessar todas as fotos de " + user_searched.getName());
 			System.out.println("[1] - Acessar todos os albuns de " + user_searched.getName());
 			System.out.println("[2] - Voltar");
