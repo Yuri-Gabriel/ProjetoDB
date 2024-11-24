@@ -77,12 +77,17 @@ public class UserRepository implements UserRepositoryInterface {
 	public boolean create(CreateUserDTO user) {
 		String query = String.format("INSERT INTO user_entity (name_user, email_user, password_user, biography_user) VALUES ('%s', '%s', '%s', '%s')", user.getName(), user.getEmail(), user.getPassword(), user.getBiography());
 		try {
-			if(this.emailCanBeRegistered(user.getEmail())) {
-				this.stm.execute(query);
-				return true;
+			if(this.nameCanBeRegistered(user.getName())) {
+				if(this.emailCanBeRegistered(user.getEmail())) {
+					this.stm.execute(query);
+					return true;
+				} else {
+					throw new Exception("Email já cadastrado");
+				}
 			} else {
-				throw new Exception("Email já cadastrado");
+				throw new Exception("Nome de usuario já cadastrado");
 			}
+			
 		} catch (SQLException err) {
 			System.out.println(err.getLocalizedMessage());
 		} catch (Exception err) {
@@ -113,6 +118,17 @@ public class UserRepository implements UserRepositoryInterface {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	private boolean nameCanBeRegistered(String name_user) {
+		String query = String.format("SELECT name_user FROM user_entity WHERE name_user = '%s'", name_user);
+		try {
+			this.result_query = this.stm.executeQuery(query);
+			return !this.result_query.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
 	
 	private boolean emailCanBeRegistered(String email_user) {

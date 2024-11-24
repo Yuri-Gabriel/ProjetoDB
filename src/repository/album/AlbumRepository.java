@@ -124,12 +124,36 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean removePhoto(int cod_album, int cod_photo) {
+		String query = String.format("DELETE FROM album_photo WHERE cod_album = %d AND cod_photo = %d", cod_album, cod_photo);
+		try {
+			this.stm.execute(query);
+			return true;
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
+		return false;
+	}
 
 	@Override
 	public boolean delete(int cod_album) {
 		try {
 			this.stm.execute("DELETE FROM album_photo WHERE cod_album = " + cod_album);
 			this.stm.execute("DELETE FROM album_entity WHERE cod_album = " + cod_album);
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean toCheckIfPhotoAlreadyIsInAlbum(int cod_album, int cod_photo) {
+		String query = String.format("SELECT * FROM album_photo WHERE cod_album = %d AND cod_photo = %d", cod_album, cod_photo);
+		try {
+			this.result_query= this.stm.executeQuery(query);
+			if(this.result_query.next()) return true;
 		} catch (SQLException err) {
 			err.printStackTrace();
 		}
@@ -170,5 +194,7 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 		}
 		return new SimpleDateFormat("dd/MM/yyyy").format(dt);
 	}
+
+	
 
 }

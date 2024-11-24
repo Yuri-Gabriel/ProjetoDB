@@ -71,7 +71,7 @@ LANGUAGE plpgsql
 AS $$
 	BEGIN
 		UPDATE photo_entity 
-		SET number_of_likes_photo = (SELECT getnunberoflikes(id_photo)) 
+		SET number_of_likes_photo = (SELECT getnumberoflikes(id_photo)) 
 		WHERE cod_photo = id_photo;
 	END
 $$;

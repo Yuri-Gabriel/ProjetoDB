@@ -9,5 +9,7 @@ public interface AlbumRepositoryInterface {
 	public boolean create(CreateAlbumDTO album, int cod_user);
 	public boolean update(UpdateAlbumDTO album, int cod_album);
 	public boolean addPhoto(int cod_album, int cod_photo);
+	public boolean removePhoto(int cod_album, int cod_photo);
 	public boolean delete(int cod_album);
+	public boolean toCheckIfPhotoAlreadyIsInAlbum(int cod_album, int cod_photo);
 }

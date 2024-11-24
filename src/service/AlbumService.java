@@ -52,8 +52,32 @@ public class AlbumService {
 			if(cod_album < 0) throw new Exception("ERRO (AlbumService.addPhoto):\nO código identificador (cod_album) informado é inválido");
 			if(cod_photo < 0) throw new Exception("ERRO (AlbumService.addPhoto):\nO código identificador (cod_photo) informado é inválido");
 			
-			repository.addPhoto(cod_album, cod_photo);
-			return true;
+			return repository.addPhoto(cod_album, cod_photo);
+
+		} catch (Exception err) {
+			System.out.println(err.getLocalizedMessage());
+		}
+		return false;
+	}
+	public static boolean removePhoto(int cod_album, int cod_photo) {
+		try {
+			if(cod_album < 0) throw new Exception("ERRO (AlbumService.addPhoto):\nO código identificador (cod_album) informado é inválido");
+			if(cod_photo < 0) throw new Exception("ERRO (AlbumService.addPhoto):\nO código identificador (cod_photo) informado é inválido");
+			
+			return repository.removePhoto(cod_album, cod_photo);
+
+		} catch (Exception err) {
+			System.out.println(err.getLocalizedMessage());
+		}
+		return false;
+	}
+	public static boolean toCheckIfPhotoAlreadyIsInAlbum(int cod_album, int cod_photo) {
+		try {
+			if(cod_album < 0) throw new Exception("ERRO (AlbumService.addPhoto):\nO código identificador (cod_album) informado é inválido");
+			if(cod_photo < 0) throw new Exception("ERRO (AlbumService.addPhoto):\nO código identificador (cod_photo) informado é inválido");
+			
+			return repository.toCheckIfPhotoAlreadyIsInAlbum(cod_album, cod_photo);
+
 		} catch (Exception err) {
 			System.out.println(err.getLocalizedMessage());
 		}

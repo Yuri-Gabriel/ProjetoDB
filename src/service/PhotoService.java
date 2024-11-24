@@ -69,7 +69,7 @@ public class PhotoService {
 		}
 		return false;
 	}
-	public static boolean incrementNumberOfLikes(int cod_photo, int cod_user) {
+	public static boolean giveOneLike(int cod_photo, int cod_user) {
 		try {
 			if(cod_photo < 0) throw new Exception("ERRO (PhotoService.incrementNumberOfLikes):\nO código identificador (cod_photo) informado é inválido");
 			
@@ -81,13 +81,25 @@ public class PhotoService {
 		}
 		return false;
 	}
-	public static boolean decrementNumberOfLikes(int cod_photo, int cod_user) {
+	public static boolean ungiveOneLike(int cod_photo, int cod_user) {
 		try {
 			if(cod_photo < 0) throw new Exception("ERRO (PhotoService.decrementNumberOfLikes):\nO código identificador (cod_photo) informado é inválido");
 			
 			if(cod_user < 0) throw new Exception("ERRO (PhotoService.decrementNumberOfLikes):\nO código identificador (cod_user) informado é inválido");
 			
 			return like_repository.ungiveOneLike(cod_photo, cod_user);
+		} catch (Exception err) {
+			System.out.println(err.getLocalizedMessage());
+		}
+		return false;
+	}
+	public static boolean toCheckIfUserAlreadGaveLike(int cod_photo, int cod_user) {
+		try {
+			if(cod_photo < 0) throw new Exception("ERRO (PhotoService.decrementNumberOfLikes):\nO código identificador (cod_photo) informado é inválido");
+			
+			if(cod_user < 0) throw new Exception("ERRO (PhotoService.decrementNumberOfLikes):\nO código identificador (cod_user) informado é inválido");
+			
+			return like_repository.toCheckIfUserAlreadGaveLike(cod_photo, cod_user);
 		} catch (Exception err) {
 			System.out.println(err.getLocalizedMessage());
 		}

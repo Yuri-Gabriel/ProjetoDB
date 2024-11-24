@@ -20,14 +20,17 @@ public class FeedView extends ViewMethods {
 			System.out.println("[1] - Meu perfil");
 			System.out.println("[2] - Buscar um perfil");
 			System.out.println("[3] - Sair do programa");
-			option = getIntInput(0, 2);
+			option = getIntInput(0, 3);
 			switch(option) {
 				case 0:
 					System.out.println("Digite o codigo da foto que deseja acessar ou -1 para cancelar: ");
 					int cod_photo = scan.nextInt();
 					if(cod_photo != -1) {
 						if(IsValidPhotoCode(photos, cod_photo)) {
-							option = PhotoView.main(photos[cod_photo]);
+							for(Photo p : photos) {
+								if(p.getId() == cod_photo) option = PhotoView.main(p, user);
+							}
+							if(option == 5) option = 3;
 						} else {
 							System.out.println("O codigo informado é invalido");
 						}
@@ -49,11 +52,15 @@ public class FeedView extends ViewMethods {
 					if(!name.equals("e")) {
 						User[] users = UserService.getAll();
 						for(User u : users) {
-							if(u.getName().equals(name)) ProfileView.main(null, u);
+							if(u.getName().equals(name)) option = ProfileView.main(user, u);
+							switch(option) {
+							case 3:
+								return -1;
+							case 5:
+								return 2;
+						}
 						}
 					}
-					
-					
 					break;
 			}
 		} while(option != 3);
