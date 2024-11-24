@@ -1,3 +1,93 @@
+# Code to create tables and to populate the database
+
+```
+CREATE TABLE IF NOT EXISTS  user_entity (
+	cod_user serial NOT NULL,
+	PRIMARY KEY(cod_user),
+	name_user varchar NOT NULL,
+	email_user varchar NOT NULL,
+	password_user varchar NOT NULL,
+	biography_user text
+);
+
+CREATE TABLE IF NOT EXISTS  album_entity (
+	cod_album serial NOT NULL,
+	PRIMARY KEY(cod_album),
+	name_album varchar NOT NULL,
+	description_album text,
+	creation_date_album date NOT NULL,
+	cod_user integer NOT NULL,
+	FOREIGN KEY(cod_user) REFERENCES user_entity(cod_user) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS  photo_entity (
+	cod_photo serial NOT NULL,
+	PRIMARY KEY(cod_photo),
+	name_photo varchar NOT NULL,
+	description_photo text,
+	date_upload_photo date NOT NULL,
+	number_of_likes_photo integer DEFAULT 0,
+	cod_user integer NOT NULL,
+	FOREIGN KEY(cod_user) REFERENCES user_entity(cod_user) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS  comment_entity (
+	cod_comment serial NOT NULL,
+	PRIMARY KEY(cod_comment),
+	text_comment text NOT NULL,
+	date_comment date NOT NULL,
+	cod_photo integer NOT NULL,
+	FOREIGN KEY(cod_photo) REFERENCES photo_entity(cod_photo) ON DELETE CASCADE,
+	cod_user integer NOT NULL,
+	FOREIGN KEY(cod_user) REFERENCES user_entity(cod_user) ON DELETE CASCADE
+); 
+
+CREATE TABLE IF NOT EXISTS  like_entity (
+	cod_like serial NOT NULL,
+	PRIMARY KEY(cod_like),
+	cod_user integer NOT NULL,
+	FOREIGN KEY(cod_user) REFERENCES user_entity(cod_user) ON DELETE CASCADE,
+	cod_photo integer NOT NULL,
+	FOREIGN KEY(cod_photo) REFERENCES photo_entity(cod_photo)ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS  album_photo (
+	cod_album_photo serial NOT NULL,
+	PRIMARY KEY(cod_album_photo),
+	cod_album integer NOT NULL,
+	FOREIGN KEY(cod_album) REFERENCES album_entity(cod_album) ON DELETE CASCADE,
+	cod_photo integer NOT NULL,
+	FOREIGN KEY(cod_photo) REFERENCES photo_entity(cod_photo) ON DELETE CASCADE
+);
+
+CREATE OR REPLACE FUNCTION getNumberOfLikes(id_photo integer) RETURNS integer
+LANGUAGE plpgsql
+AS $$
+	DECLARE
+		numberOfLikes integer;
+	BEGIN
+		SELECT COUNT(*) INTO numberOfLikes FROM like_entity WHERE like_entity.cod_photo = id_photo;
+		RETURN numberOfLikes;
+	END
+$$;
+
+CREATE OR REPLACE PROCEDURE updateNumberOfLikes(id_photo integer)
+LANGUAGE plpgsql
+AS $$
+	BEGIN
+		UPDATE photo_entity 
+		SET number_of_likes_photo = (SELECT getnumberoflikes(id_photo)) 
+		WHERE cod_photo = id_photo;
+	END
+$$;
+
+DROP VIEW IF EXISTS getallphotos;
+
+CREATE OR REPLACE VIEW getAllPhotos AS
+SELECT photo_entity.*, user_entity.name_user, user_entity.email_user FROM photo_entity 
+INNER JOIN user_entity 
+ON photo_entity.cod_user = user_entity.cod_user;
+
 INSERT INTO user_entity (name_user, email_user, password_user, biography_user) VALUES
 ('Alice', 'alice@example.com', 'password123', 'Amante de fotografia e viagens.'),
 ('Bob', 'bob@example.com', 'securepass', 'Entusiasta de tecnologia.'),
@@ -45,4 +135,4 @@ INSERT INTO comment_entity (text_comment, date_comment, cod_photo, cod_user) VAL
 ('Foto sensacional!', '2024-07-18', 11, 4),
 ('Expressivo e forte.', '2024-09-15', 13, 5),
 ('Gostei da composição.', '2024-09-16', 14, 5);
-
+```
