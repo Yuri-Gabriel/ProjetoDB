@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import entities.Album;
 import entities.Photo;
 
 public class ViewMethods {
@@ -22,6 +23,13 @@ public class ViewMethods {
 	public static boolean IsValidPhotoCode(Photo[] photos, int cod_photo) {
 		for(int i = 0; i < photos.length; i++) {
 			if(cod_photo == photos[i].getId()) return true;
+		}
+		return false;
+	}
+	
+	public static boolean IsValidAlbumCode(Album[] albuns, int cod_album) {
+		for(int i = 0; i < albuns.length; i++) {
+			if(cod_album == albuns[i].getId()) return true;
 		}
 		return false;
 	}

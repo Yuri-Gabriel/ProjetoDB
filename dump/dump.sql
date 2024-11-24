@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS  photo_entity (
 	PRIMARY KEY(cod_photo),
 	name_photo varchar NOT NULL,
 	description_photo text,
-	data_upload_photo date NOT NULL,
+	date_upload_photo date NOT NULL,
 	number_of_likes_photo integer DEFAULT 0,
 	cod_user integer NOT NULL,
 	FOREIGN KEY(cod_user) REFERENCES user_entity(cod_user) ON DELETE CASCADE

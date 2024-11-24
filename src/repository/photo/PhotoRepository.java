@@ -48,7 +48,7 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 				int id = Integer.parseInt(this.result_query.getString("cod_photo"));
 				String name_photo = this.result_query.getString("name_photo");
 				String description = this.result_query.getString("description_photo");
-				String date = this.formatDate(this.result_query.getString("data_upload_photo"));
+				String date = this.formatDate(this.result_query.getString("date_upload_photo"));
 				int number_of_likes = Integer.parseInt(this.result_query.getString("number_of_likes_photo"));
 				int cod_user = Integer.parseInt(this.result_query.getString("cod_user"));
 				String name_user = this.result_query.getString("name_user");
@@ -126,6 +126,8 @@ public class PhotoRepository implements PhotoRepositoryInterface  {
 	public boolean delete(int cod_photo) {
 		String query = String.format("DELETE FROM photo_entity WHERE cod_photo = '%d'", cod_photo);
 		try {
+			this.stm.execute(String.format("DELETE FROM comment_entity WHERE cod_photo = '%d'", cod_photo));
+			this.stm.execute(String.format("DELETE FROM album_photo WHERE cod_photo = '%d'", cod_photo));
 			this.stm.execute(query);
 			return true;
 		} catch (SQLException err) {

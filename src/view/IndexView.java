@@ -44,7 +44,7 @@ public class IndexView extends ViewMethods {
 		
 		if(email.equals("e")) return;
 		if(!email.contains("@")) {
-			System.out.println("Email invalido");
+			System.out.println("Endereço de email invalido");
 			return;
 		}
 		

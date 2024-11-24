@@ -152,7 +152,7 @@ public class AlbumRepository implements AlbumRepositoryInterface {
 			columns = new String(columns_array).trim();
 		}
 		
-		return String.format("UPDATE album_entity SET %s WHERE cod_user = '%s'", columns, cod_album);
+		return String.format("UPDATE album_entity SET %s WHERE cod_album = '%s'", columns, cod_album);
 	}
 	
 	private String getAtualDate() {
