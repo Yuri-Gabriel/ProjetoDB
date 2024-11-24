@@ -9,7 +9,7 @@ import service.UserService;
 public class IndexView extends ViewMethods {
 	private static Scanner scan = new Scanner(System.in);
 	
-	public static void main() {
+	public static void main() throws Exception {
 		int option = -1;
 		do {
 			System.out.println("       Login");

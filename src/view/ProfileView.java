@@ -393,6 +393,7 @@ public class ProfileView extends ViewMethods {
 	}
 	
 	private static int OtherProfile(User user_searched) {
+		System.out.println("akhsjd");
 		int option = -1;
 		do {
 			System.out.println("[0] - Acessar todas as fotos de " + user_searched.getName());
@@ -400,8 +401,106 @@ public class ProfileView extends ViewMethods {
 			System.out.println("[2] - Voltar");
 			System.out.println("[3] - Sair do programa");
 			option = getIntInput(0, 3);
+			
+			switch(option) {
+				case 0:
+					viewPhotosFromOtherUser(user_searched.getId());
+					break;
+				case 1:
+					viewAlbunsFromOtherUser(user_searched.getId());
+					break;
+			}
 		} while(!(option == 2 || option == 3));
 		
 		return option;
+	}
+	
+	private static void viewAlbunsFromOtherUser(int cod_user) {
+		Album[] albuns = AlbumService.getAllAlbumByUser(cod_user);
+		if(albuns == null || albuns.length == 0) {
+			System.out.println("--------------------------------");
+			System.out.println(" Esse usuario não possui albuns ");
+			System.out.println("--------------------------------");
+			return;
+		}
+		
+		for(Album a : albuns) {
+			String albumSTR = String.format("--------------------\n" 
+					 					  + "      ALBUM %d      \n"
+					                      + " Nome: %s\n"
+										  + " Descrição: %s\n"
+					                      + " Data de criação: %s\n"
+					                      + "--------------------\n" , a.getId(),
+					                      								a.getName(),
+					                      								a.getDescription(),
+					                      								a.getCreation_date());
+			System.out.println(albumSTR);
+		}
+		
+		int option = -1;
+		int cod_album = -1;
+		
+		System.out.println("[0] - Acessar um album");
+		System.out.println("[1] - Voltar");
+		option = getIntInput(0, 1);
+		switch(option) {
+			case 0:
+				System.out.println("Digite o codigo do album que deseja acessar ou -1 para cancelar: ");
+				cod_album = scan.nextInt();
+				if(cod_album != -1) {
+					if(IsValidAlbumCode(albuns, cod_album)) {
+						for(Album a : albuns) {
+							if(a.getId() == cod_album) {
+								for(Photo p : a.getPhotos()) {
+									String photoSTR = String.format("--------------------\n" 
+											 					  + "       FOTO %d      \n"
+											                      + " Titulo: %s\n"
+																  + " Descrição: %s\n"
+											                      + " Postado dia: %s\n"
+																  + " Numero de likes: %d\n"
+											                      + "--------------------\n" , p.getId(),
+											                      								p.getName(),
+																				  			    p.getDescription(),
+																							    p.getUpload_date(),
+																								p.getNumber_of_likes());
+									System.out.println(photoSTR);
+								}
+							}
+						}
+					} else {
+						System.out.println("O codigo informado é invalido");
+					}
+				}
+				break;
+			case 1:
+				return;
+		}
+	}
+	
+	
+	
+	private static void viewPhotosFromOtherUser(int cod_user) {
+		Photo[] photos = PhotoService.getAllByUser(cod_user);
+		if(photos == null) {
+			System.out.println("------------------------");
+			System.out.println("  Nenhuma foto postada  ");
+			System.out.println("------------------------");
+			return;
+		}
+		
+		for(Photo p : photos) {
+			String photoSTR = String.format("--------------------\n" 
+					 					  + "       FOTO %d      \n"
+					                      + " Titulo: %s\n"
+										  + " Descrição: %s\n"
+					                      + " Postado dia: %s\n"
+										  + " Numero de likes: %d\n"
+					                      + "--------------------\n" , p.getId(),
+					                      								p.getName(),
+														  			    p.getDescription(),
+																	    p.getUpload_date(),
+																		p.getNumber_of_likes());
+			System.out.println(photoSTR);
+		}
 	}
 }

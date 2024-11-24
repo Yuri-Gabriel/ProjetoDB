@@ -5,11 +5,12 @@ import java.util.Scanner;
 import entities.Photo;
 import entities.User;
 import service.PhotoService;
+import service.UserService;
 
 public class FeedView extends ViewMethods {
 	private static Scanner scan = new Scanner(System.in);
 	
-	public static int main(User user) {
+	public static int main(User user) throws Exception {
 		int option = 2;
 		do {
 			Photo[] photos = PhotoService.getAll();
@@ -42,7 +43,17 @@ public class FeedView extends ViewMethods {
 					}
 					break;
 				case 2:
-					option = SearchView.main();
+					System.out.print("Digite o username do usuario ou 'e' para cancelar: ");
+					String name = scan.next().trim();
+					
+					if(!name.equals("e")) {
+						User[] users = UserService.getAll();
+						for(User u : users) {
+							if(u.getName().equals(name)) ProfileView.main(null, u);
+						}
+					}
+					
+					
 					break;
 			}
 		} while(option != 3);
