@@ -1,6 +1,8 @@
 package view;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import entities.User;
 import entities.dto.user.CreateUserDTO;
@@ -8,6 +10,8 @@ import service.UserService;
 
 public class IndexView extends ViewMethods {
 	private static Scanner scan = new Scanner(System.in);
+	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
+		    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 	
 	public static void main() throws Exception {
 		int option = -1;
@@ -37,23 +41,23 @@ public class IndexView extends ViewMethods {
 	
 	private static void doSingUp() {
 		System.out.print("Digite seu nome de usuario ou 'e' para sair: ");
-		String nome = scan.next().trim();
+		String nome = scan.nextLine().trim();
 		
-		if(nome.equals("e")) return;
+		if(nome.equalsIgnoreCase("e")) return;
 		
 		System.out.print("Digite um email ou 'e' para sair: ");
-		String email = scan.next().trim();
+		String email = scan.nextLine().trim();
 		
-		if(email.equals("e")) return;
-		if(!email.contains("@")) {
+		if(email.equalsIgnoreCase("e")) return;
+		if(!validateEmail(email)) {
 			System.out.println("Endereço de email invalido");
 			return;
 		}
 		
 		System.out.print("Digite uma senha ou 'e' para sair: ");
-		String senha = scan.next().trim();
+		String senha = scan.nextLine().trim();
 		
-		if(senha.equals("e")) return;
+		if(senha.equalsIgnoreCase("e")) return;
 		
 		boolean created = UserService.create(new CreateUserDTO(nome, email, senha, ""));
 		if(created) System.out.println("Usuario criado");
@@ -63,18 +67,23 @@ public class IndexView extends ViewMethods {
 		User user = null;
 		
 		System.out.print("Digite seu email ou 'e' para sair: ");
-		String email = scan.next().trim();
+		String email = scan.nextLine().trim();
 		
-		if(email.equals("e")) return null;
+		if(email.equalsIgnoreCase("e")) return null;
 		
 		System.out.print("Digite sua senha ou 'e' para sair: ");
-		String senha = scan.next().trim();
+		String senha = scan.nextLine().trim();
 		
-		if(senha.equals("e")) return null;
+		if(senha.equalsIgnoreCase("e")) return null;
 		
 		user = UserService.get(email, senha);
 			
 		return user;
+	}
+	
+	public static boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.matches();
 	}
 	
 	

@@ -48,4 +48,9 @@ public class ViewMethods {
 		}
 		return false;
 	}
+	
+	public static int getNextInt() {
+		scan.nextLine();
+		return scan.nextInt();
+	}
 }

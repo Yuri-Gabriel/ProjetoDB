@@ -86,13 +86,13 @@ public class PhotoView extends ViewMethods {
 					removeComment();
 					break;
 			}
-		} while(option != 2);
+		} while(!(option == 2 || option == 3));
 		return option;
 	}
 	
 	private static void removeComment() {
 		System.out.print("Digite o codigo do seu comentario que deseja remover ou -1 para cancelar: ");
-		int cod_comment = scan.nextInt();
+		int cod_comment = getNextInt();
 		
 		if(cod_comment == -1) return;
 		
@@ -117,9 +117,9 @@ public class PhotoView extends ViewMethods {
 	
 	private static void makeComment() {
 		System.out.print("Digite o texto do comentario ou 'e' para cancelar: ");
-		String text = scan.next().trim();
+		String text = scan.nextLine().trim();
 		
-		if(text.equals("e")) return;
+		if(text.equalsIgnoreCase("e")) return;
 		
 		boolean created = CommentService.create(new CreateCommentDTO(text, user.getId(), photo.getId()));
 		if(created) System.out.println("Comentario realizado");
@@ -127,6 +127,12 @@ public class PhotoView extends ViewMethods {
 	}
 	
 	private static void showComments() {
+		if(comments == null || comments.length == 0) {
+			System.out.println("------------------------------------");
+			System.out.println("  Essa foto não possui comentarios  ");
+			System.out.println("------------------------------------");
+			return;
+		}
 		for(Comment c : comments) {
 			String commentSTR = String.format("--------------------\n" 
 										    + "    COMENTARIO %d   \n"

@@ -70,9 +70,9 @@ public class ProfileView extends ViewMethods {
 	
 	private static void editBiografy() {
 		System.out.print("Escreva uma nova biografia ou digite 'e' para cancelar: ");
-		String biografy = scan.next().trim();
+		String biografy = scan.nextLine().trim();
 		
-		if(biografy.equals("e")) return;
+		if(biografy.equalsIgnoreCase("e")) return;
 		
 		boolean updated = UserService.update(new UpdateUserDTO("", "", "", biografy), user_login.getId());
 		
@@ -91,14 +91,14 @@ public class ProfileView extends ViewMethods {
 				
 				do {
 					System.out.print("Sua escolha: ");
-					answer = scan.next().trim().toLowerCase();
+					answer = scan.nextLine().trim().toLowerCase();
 					
-					if(!(answer.equals("s") || answer.equals("n"))) {
+					if(!(answer.equalsIgnoreCase("s") || answer.equalsIgnoreCase("n"))) {
 						System.out.println("Opção inválida");
 					}
-				} while (!(answer.equals("s") || answer.equals("n")));
+				} while (!(answer.equalsIgnoreCase("s") || answer.equalsIgnoreCase("n")));
 				
-				if(answer.equals("n")) return 3;
+				if(answer.equalsIgnoreCase("n")) return 1;
 				
 				createNewAlbum();
 			}
@@ -107,11 +107,11 @@ public class ProfileView extends ViewMethods {
 			System.out.println("[2] - Deletar um album");
 			System.out.println("[3] - Voltar");
 			System.out.println("[4] - Sair do programa");
-			option = getIntInput(0, 3);
+			option = getIntInput(0, 4);
 			switch(option) {
 				case 0:
 					System.out.println("Digite o codigo do album que deseja acessar ou -1 para cancelar: ");
-					cod_album = scan.nextInt();
+					cod_album = getNextInt();
 					if(cod_album != -1) {
 						if(IsValidAlbumCode(albuns, cod_album)) {
 							for(Album a : albuns) {
@@ -127,7 +127,7 @@ public class ProfileView extends ViewMethods {
 					break;
 				case 2:
 					System.out.print("Digite o codigo do album que deseja deletar ou -1 para cancelar: ");
-					cod_album = scan.nextInt();
+					cod_album = getNextInt();
 					if(cod_album != -1) {
 						deleteAlbum(albuns, cod_album);
 					}
@@ -149,18 +149,18 @@ public class ProfileView extends ViewMethods {
 	
 	private static boolean createNewAlbum() {
 		System.out.print("Digite um nome para o album (obrigatorio) ou 'e' para cancelar: ");
-		String name = scan.next().trim();
+		String name = scan.nextLine().trim();
 		
-		if(name.equals("")) {
+		if(name.equalsIgnoreCase("")) {
 			System.out.println("ERRO: Não foi digitado um nome para o album");
 			return false;
 		}
-		if(name.equals("e")) return false;
+		if(name.equalsIgnoreCase("e")) return false;
 		
 		System.out.print("Digite uma descrição para o album (opcional) ou 'e' para cancelar: ");
-		String description = scan.next().trim();
+		String description = scan.nextLine().trim();
 		
-		if(name.equals("e")) return false;
+		if(name.equalsIgnoreCase("e")) return false;
 		
 		boolean created = AlbumService.create(new CreateAlbumDTO(name, description), user_login.getId());
 		if(created) System.out.println("Album criado");
@@ -209,7 +209,7 @@ public class ProfileView extends ViewMethods {
 			switch(option) {
 				case 0:
 					System.out.print("Digite o codigo da foto que deseja deletar ou -1 para cancelar: ");
-					cod_photo = scan.nextInt();
+					cod_photo = getNextInt();
 					if(cod_photo != -1) {
 						if(IsValidPhotoCode(album.getPhotos(), cod_photo)) {
 							removePhotoFromAlbum(album.getId(), cod_photo);
@@ -222,12 +222,12 @@ public class ProfileView extends ViewMethods {
 				case 1:
 					
 					System.out.print("Digite um novo nome para o album ou 'p' para pular: ");
-					String newName = scan.next().trim();
+					String newName = scan.nextLine().trim();
 					
 					System.out.print("Digite uma nova descrição para o album ou aperte 'p' para pular: ");
-					String newDescription = scan.next().trim();
+					String newDescription = scan.nextLine().trim();
 					
-					if(!(newName.equals("p") && newDescription.equals("p"))) {
+					if(!(newName.equalsIgnoreCase("p") && newDescription.equalsIgnoreCase("p"))) {
 						boolean updated = AlbumService.update(new UpdateAlbumDTO(newName, newDescription), album.getId());
 						if(updated) System.out.println("Informações atualizadas");
 						album.setName(newName);
@@ -246,7 +246,7 @@ public class ProfileView extends ViewMethods {
 	}
 	
 	private static boolean showAllAlbuns(Album[] albuns) {
-		if(albuns == null) {
+		if(albuns.length == 0) {
 			System.out.println("------------------------");
 			System.out.println("       Sem albuns       ");
 			System.out.println("------------------------");
@@ -280,14 +280,14 @@ public class ProfileView extends ViewMethods {
 			
 			do {
 				System.out.print("Sua escolha: ");
-				answer = scan.next().trim().toLowerCase();
+				answer = scan.nextLine().trim().toLowerCase();
 				
-				if(!(answer.equals("s") || answer.equals("n"))) {
+				if(!(answer.equalsIgnoreCase("s") || answer.equalsIgnoreCase("n"))) {
 					System.out.println("Opção inválida");
 				}
-			} while (!(answer.equals("s") || answer.equals("n")));
+			} while (!(answer.equalsIgnoreCase("s") || answer.equalsIgnoreCase("n")));
 			
-			if(answer.equals("n")) return;
+			if(answer.equalsIgnoreCase("n")) return;
 			
 			if(createNewAlbum()) return;
 		}
@@ -295,13 +295,13 @@ public class ProfileView extends ViewMethods {
 		Photo[] photos = PhotoService.getAllByUser(cod_user);
 		
 		System.out.print("Digite o codigo da foto escolhida ou -1 para cancelar: ");
-		cod_photo = scan.nextInt();
+		cod_photo = getNextInt();
 		
 		if(cod_photo == -1) return;
 		
 		if(IsValidPhotoCode(photos, cod_photo)) {
 			System.out.print("Digite o codigo do album onde quer por a foto ou -1 para cancelar: ");
-			cod_album = scan.nextInt();
+			cod_album = getNextInt();
 			
 			if(cod_album == -1) return;
 			
@@ -330,7 +330,7 @@ public class ProfileView extends ViewMethods {
 		do {
 			Photo[] photos = PhotoService.getAllByUser(user_login.getId());
 			if(!showAllPhotos(photos)) {
-				return 4;
+				return 0;
 			}
 			System.out.println("[0] - Postar uma nova foto");
 			System.out.println("[1] - Acessar uma foto especifica");
@@ -345,7 +345,7 @@ public class ProfileView extends ViewMethods {
 					break;
 				case 1:
 					System.out.println("Digite o codigo da foto que deseja acessar ou -1 para cancelar: ");
-					cod_photo = scan.nextInt();
+					cod_photo = getNextInt();
 					if(cod_photo != -1) {
 						if(IsValidPhotoCode(photos, cod_photo)) {
 							for(Photo p : photos) {
@@ -362,7 +362,7 @@ public class ProfileView extends ViewMethods {
 					break;
 				case 3:
 					System.out.print("Digite o codigo da foto que deseja deletar ou -1 para cancelar: ");
-					cod_photo = scan.nextInt();
+					cod_photo = getNextInt();
 					if(cod_photo != -1) {
 						deletePhoto(photos, cod_photo);
 					}
@@ -382,14 +382,14 @@ public class ProfileView extends ViewMethods {
 	
 	private static void postNewPhoto() {
 		System.out.print("Digite um titulo para a foto ou 'e' para cancelar: ");
-		String title = scan.next().trim();
+		String title = scan.nextLine().trim();
 		
-		if(title.equals("e")) return;
+		if(title.equalsIgnoreCase("e")) return;
 		
 		System.out.print("Digite uma descrição para a foto ou 'e' para cancelar: ");
-		String description = scan.next().trim();
+		String description = scan.nextLine().trim();
 		
-		if(description.equals("e")) return;
+		if(description.equalsIgnoreCase("e")) return;
 		
 		boolean created = PhotoService.create(new CreatePhotoDTO(title, description), user_login.getId());
 		
@@ -483,7 +483,7 @@ public class ProfileView extends ViewMethods {
 		switch(option) {
 			case 0:
 				System.out.println("Digite o codigo do album que deseja acessar ou -1 para cancelar: ");
-				cod_album = scan.nextInt();
+				cod_album = getNextInt();
 				if(cod_album != -1) {
 					if(IsValidAlbumCode(albuns, cod_album)) {
 						for(Album a : albuns) {
@@ -514,7 +514,7 @@ public class ProfileView extends ViewMethods {
 								
 								if(option == 0) {
 									System.out.print("Digite o codigo da foto ou -1 para cancelar: ");
-									int cod_photo = scan.nextInt();
+									int cod_photo = getNextInt();
 									
 									if(cod_photo == -1) return;
 									
@@ -568,7 +568,7 @@ public class ProfileView extends ViewMethods {
 		
 		if(option == 0) {
 			System.out.print("Digite o codigo da foto ou -1 para cancelar: ");
-			int cod_photo = scan.nextInt();
+			int cod_photo = getNextInt();
 			
 			if(cod_photo == -1) return;
 			

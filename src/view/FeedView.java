@@ -29,7 +29,7 @@ public class FeedView extends ViewMethods {
 			switch(option) {
 				case 0:
 					System.out.println("Digite o codigo da foto que deseja acessar ou -1 para cancelar: ");
-					int cod_photo = scan.nextInt();
+					int cod_photo = getNextInt();
 					if(cod_photo != -1) {
 						if(IsValidPhotoCode(photos, cod_photo)) {
 							for(Photo p : photos) {
@@ -55,12 +55,12 @@ public class FeedView extends ViewMethods {
 					break;
 				case 2:
 					System.out.print("Digite o username do usuario ou 'e' para cancelar: ");
-					String name = scan.next().trim();
+					String name = scan.nextLine().trim();
 					
-					if(!name.equals("e")) {
+					if(!name.equalsIgnoreCase("e")) {
 						User[] users = UserService.getAll();
 						for(User u : users) {
-							if(u.getName().equals(name)) option = ProfileView.main(user, u);
+							if(u.getName().equalsIgnoreCase(name)) option = ProfileView.main(user, u);
 							switch(option) {
 							case 3:
 								return -1;
@@ -84,7 +84,7 @@ public class FeedView extends ViewMethods {
 	
 	
 	private static void showPhotos(Photo[] photos) {
-		if(photos == null) {
+		if(photos == null || photos.length == 0) {
 			System.out.println("------------------------");
 			System.out.println("  Nenhuma foto postada  ");
 			System.out.println("------------------------");
