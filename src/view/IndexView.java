@@ -70,6 +70,10 @@ public class IndexView extends ViewMethods {
 		String email = scan.nextLine().trim();
 		
 		if(email.equalsIgnoreCase("e")) return null;
+		if(!validateEmail(email)) {
+			System.out.println("Endereço de email invalido");
+			return null;
+		}
 		
 		System.out.print("Digite sua senha ou 'e' para sair: ");
 		String senha = scan.nextLine().trim();
